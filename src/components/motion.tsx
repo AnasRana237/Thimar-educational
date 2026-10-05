@@ -154,7 +154,14 @@ export function RotatingWords({
   wordClassName?: string;
 }) {
   const reduced = useReducedMotion();
-  const [index, setIndex] = useState(0);
+  /*
+   * A monotonic counter, not the phrase index. Using the index as the
+   * AnimatePresence key means that on wrap-around the new node reuses the
+   * key of the one still animating out, which React and framer both
+   * resolve badly. A counter never repeats, so the exiting and entering
+   * nodes are always distinct however the cycle lines up.
+   */
+  const [tick, setTick] = useState(0);
   const [paused, setPaused] = useState(false);
   const started = useRef(false);
 
@@ -162,13 +169,13 @@ export function RotatingWords({
     if (reduced || paused || phrases.length < 2) return;
     const id = setTimeout(() => {
       started.current = true;
-      setIndex((v) => (v + 1) % phrases.length);
+      setTick((v) => v + 1);
     }, interval);
     return () => clearTimeout(id);
-  }, [index, paused, reduced, interval, phrases.length]);
+  }, [tick, paused, reduced, interval, phrases.length]);
 
   const first = phrases[0] ?? "";
-  const active = phrases[index] ?? first;
+  const active = phrases[tick % phrases.length] ?? first;
 
   if (reduced || phrases.length < 2) {
     return <span className={cn("block", className)}>{first}</span>;
@@ -186,18 +193,22 @@ export function RotatingWords({
       {/* Sizing ghosts — every phrase, stacked in one cell, so the grid
           track is as large as the largest phrase at any viewport. */}
       {phrases.map((p) => (
-        <span key={p} aria-hidden="true" className="invisible [grid-area:1/1] block">
+        <span key={p} aria-hidden="true" className="invisible col-start-1 row-start-1 block">
           {p}
         </span>
       ))}
 
       <span className="sr-only">{first}</span>
 
-      <span aria-hidden="true" className="[grid-area:1/1] block">
+      {/* Also a grid: during a swap the outgoing and incoming phrases are
+          both mounted, and as block siblings they would stack and stretch
+          the row. Sharing one cell lets them overlap instead — which is
+          the effect anyway, one rolling out as the next rolls in. */}
+      <span aria-hidden="true" className="col-start-1 row-start-1 grid">
         <AnimatePresence initial={false}>
           <motion.span
-            key={index}
-            className="block [grid-area:1/1]"
+            key={tick}
+            className="block col-start-1 row-start-1"
             initial="enter"
             animate="center"
             exit="exit"
