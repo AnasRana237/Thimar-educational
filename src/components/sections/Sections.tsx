@@ -820,11 +820,10 @@ export function Gallery() {
       {/* Bento grid: a lead photo framed by two portrait campus videos. */}
       <div className="mt-14 grid grid-flow-dense auto-rows-[11rem] grid-cols-2 gap-4 sm:auto-rows-[13rem] lg:grid-cols-4">
         {galleryItems.map((item, k) => {
-          // Art-directed at rest, alive on hover: the tiles sit as a
-          // monochrome set so the grid reads as one composition, and
-          // the media returns to full colour under the cursor.
+          // Shown in natural colour: touch screens have no hover, so nothing
+          // about how the media looks may depend on it.
           const media = cn(
-            "size-full object-cover grayscale transition-[transform,filter] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105 group-hover:grayscale-0",
+            "size-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105",
             item.position,
           );
           return (
@@ -843,7 +842,6 @@ export function Gallery() {
                 ) : (
                   <img src={item.src} alt={t.gallery.captions[k]} loading="lazy" className={media} />
                 )}
-                <span className="absolute inset-0 bg-navy-deep/40 transition-opacity duration-500 group-hover:opacity-0" />
                 {item.video && (
                   <span className="absolute top-3 start-3 inline-flex size-8 items-center justify-center rounded-full bg-navy-deep/55 text-primary-foreground backdrop-blur-sm">
                     <Play className="size-3.5 fill-current" aria-hidden="true" />
