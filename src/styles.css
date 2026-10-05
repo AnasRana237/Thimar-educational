@@ -1,0 +1,604 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Thimar Educational design system.
+ * Brand: navy #140F78, golden #FDB342, cream #FFF9EE, deep navy #0B0850.
+ * All colors are oklch tokens. Never hardcode colors in components.
+ *
+ * Radius scale is deliberately restrained: 12px base, 24px maximum on cards.
+ * Gold is a surface colour. On light backgrounds use --gold-ink for text,
+ * which is the same hue darkened to pass WCAG AA against white.
+ */
+
+@theme inline {
+  --radius-xs: calc(var(--radius) - 6px);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 20px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-cream: var(--cream);
+  --color-cream-deep: var(--cream-deep);
+  --color-navy-deep: var(--navy-deep);
+  --color-navy-soft: var(--navy-soft);
+  --color-gold: var(--gold);
+  --color-gold-soft: var(--gold-soft);
+  --color-gold-ink: var(--gold-ink);
+  --color-gold-foreground: var(--gold-foreground);
+
+  --font-sans: var(--font-body);
+  --font-display: var(--font-heading);
+}
+
+:root {
+  --radius: 0.75rem;
+
+  /* brand */
+  --primary: oklch(0.289 0.191 275.5); /* #140F78 */
+  --primary-foreground: oklch(0.99 0.008 95);
+  --navy-deep: oklch(0.212 0.153 276); /* #0B0850 */
+  --navy-soft: oklch(0.38 0.17 278);
+  --gold: oklch(0.816 0.139 74); /* #FDB342 */
+  --gold-soft: oklch(0.905 0.076 80);
+  --gold-ink: oklch(0.52 0.125 62); /* readable gold for text on light surfaces */
+  --gold-foreground: oklch(0.212 0.153 276);
+  --cream: oklch(0.984 0.016 88); /* #FFF9EE */
+  --cream-deep: oklch(0.967 0.023 86);
+
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.235 0.06 274);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.235 0.06 274);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.235 0.06 274);
+  --secondary: oklch(0.965 0.017 88);
+  --secondary-foreground: oklch(0.289 0.191 275.5);
+  --muted: oklch(0.966 0.008 275);
+  --muted-foreground: oklch(0.455 0.045 274);
+  --accent: oklch(0.816 0.139 74);
+  --accent-foreground: oklch(0.212 0.153 276);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.99 0 0);
+  --border: oklch(0.924 0.012 275);
+  --input: oklch(0.905 0.016 275);
+  --ring: oklch(0.52 0.125 62);
+
+  --font-heading: "Poppins", "Tajawal", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Inter", "Tajawal", ui-sans-serif, system-ui, sans-serif;
+
+  --gradient-navy: linear-gradient(
+    145deg,
+    var(--navy-deep) 0%,
+    var(--primary) 58%,
+    var(--navy-soft) 100%
+  );
+
+  /* Layered, near-neutral shadows. Subtle at rest, deeper on intent. */
+  --shadow-xs: 0 1px 2px color-mix(in oklab, var(--navy-deep) 6%, transparent);
+  --shadow-soft:
+    0 1px 2px color-mix(in oklab, var(--navy-deep) 5%, transparent),
+    0 6px 16px -8px color-mix(in oklab, var(--navy-deep) 14%, transparent);
+  --shadow-lift:
+    0 2px 4px color-mix(in oklab, var(--navy-deep) 5%, transparent),
+    0 18px 40px -20px color-mix(in oklab, var(--navy-deep) 28%, transparent);
+  --shadow-gold: 0 10px 26px -12px color-mix(in oklab, var(--gold) 70%, transparent);
+  --shadow-glow-gold:
+    0 0 0 1px color-mix(in oklab, var(--gold) 45%, transparent),
+    0 12px 40px -14px color-mix(in oklab, var(--gold) 55%, transparent);
+
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-soft: cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+html[dir="rtl"] {
+  --font-heading: "Tajawal", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Tajawal", ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+  }
+
+  /*
+   * Negative tracking is a Latin-type convenience. Arabic letterforms are
+   * joined, so tightening them damages the connections: keep it LTR-only.
+   */
+  html[dir="ltr"] h1,
+  html[dir="ltr"] h2,
+  html[dir="ltr"] h3 {
+    letter-spacing: -0.021em;
+  }
+
+  /* Arabic needs more leading to clear ascenders, descenders and diacritics. */
+  html[dir="rtl"] h1,
+  html[dir="rtl"] h2 {
+    line-height: 1.3;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--gold-ink);
+    outline-offset: 3px;
+  }
+
+  ::selection {
+    background-color: color-mix(in oklab, var(--gold) 45%, transparent);
+    color: var(--navy-deep);
+  }
+}
+
+@utility surface-cream {
+  background-color: var(--cream);
+}
+
+@utility bg-gradient-navy {
+  background-image: var(--gradient-navy);
+}
+
+/*
+ * Card tiers. A page where every box looks identical has no hierarchy, so
+ * each tier signals a different weight of content.
+ *   card-quiet  - supporting detail, outline only
+ *   card-raised - primary content, lifts on hover
+ *   card-inset  - content sitting on a dark/navy surface
+ */
+@utility card-quiet {
+  background-color: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-2xl);
+  transition:
+    border-color 0.3s ease,
+    background-color 0.3s ease;
+  &:hover {
+    border-color: color-mix(in oklab, var(--primary) 22%, transparent);
+    background-color: color-mix(in oklab, var(--cream) 55%, var(--card));
+  }
+}
+
+@utility card-raised {
+  background-color: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-3xl);
+  box-shadow: var(--shadow-soft);
+  transition:
+    transform 0.4s var(--ease-out-soft),
+    box-shadow 0.4s ease,
+    border-color 0.4s ease;
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lift);
+    border-color: color-mix(in oklab, var(--gold) 55%, transparent);
+  }
+}
+
+@utility card-inset {
+  background-color: color-mix(in oklab, var(--primary-foreground) 7%, transparent);
+  border: 1px solid color-mix(in oklab, var(--primary-foreground) 14%, transparent);
+  border-radius: var(--radius-3xl);
+  transition:
+    background-color 0.4s ease,
+    border-color 0.4s ease,
+    transform 0.4s var(--ease-out-soft);
+  &:hover {
+    transform: translateY(-4px);
+    background-color: color-mix(in oklab, var(--primary-foreground) 11%, transparent);
+    border-color: color-mix(in oklab, var(--gold) 45%, transparent);
+  }
+}
+
+/* A thin gold rule used to anchor section eyebrows. */
+@utility eyebrow-rule {
+  &::before {
+    content: "";
+    display: inline-block;
+    inline-size: 1.75rem;
+    block-size: 2px;
+    border-radius: 2px;
+    background-color: var(--gold);
+    vertical-align: middle;
+  }
+}
+
+@utility section-pad {
+  padding-block: clamp(4.5rem, 7vw, 7rem);
+}
+
+@utility section-pad-lg {
+  padding-block: clamp(5.5rem, 9vw, 9rem);
+}
+
+@utility section-pad-sm {
+  padding-block: clamp(3.5rem, 5vw, 5rem);
+}
+
+/* ============================================================
+ * MOTION LAYER
+ *
+ * Ambient, never-ending motion lives here; scroll- and pointer-driven
+ * motion lives in JS (see lib/motion.ts) where it can be gated on
+ * useReducedMotion. Everything below animates only transform, opacity
+ * or a registered custom property, so none of it triggers layout, and
+ * all of it is silenced by the prefers-reduced-motion block at the
+ * bottom of this file.
+ * ========================================================== */
+
+/*
+ * An angle has to be a registered property to be animatable — without
+ * this the conic ring below simply renders static, which is a fine
+ * fallback.
+ */
+@property --ring-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+/*
+ * The three drifts are deliberately co-prime-ish (19s/23s/31s) so the
+ * hero wash never visibly loops back to the same arrangement.
+ */
+@keyframes drift-a {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(5%, -6%, 0) scale(1.14);
+  }
+}
+
+@keyframes drift-b {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1.06);
+  }
+  50% {
+    transform: translate3d(-7%, 5%, 0) scale(0.92);
+  }
+}
+
+@keyframes drift-c {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(0.95);
+  }
+  50% {
+    transform: translate3d(4%, 7%, 0) scale(1.1);
+  }
+}
+
+@keyframes float-soft {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-7px);
+  }
+}
+
+@keyframes ring-spin {
+  to {
+    --ring-angle: 360deg;
+  }
+}
+
+/* A dot that falls down the scroll cue's rail, then restarts. */
+@keyframes cue-fall {
+  0% {
+    transform: translateY(-120%);
+    opacity: 0;
+  }
+  35% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(240%);
+    opacity: 0;
+  }
+}
+
+@keyframes halo {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.35);
+  }
+}
+
+@utility animate-drift-a {
+  animation: drift-a 19s var(--ease-in-out-soft) infinite;
+}
+
+@utility animate-drift-b {
+  animation: drift-b 23s var(--ease-in-out-soft) infinite;
+}
+
+@utility animate-drift-c {
+  animation: drift-c 31s var(--ease-in-out-soft) infinite;
+}
+
+@utility animate-float-soft {
+  animation: float-soft 6s ease-in-out infinite;
+}
+
+@utility animate-cue-fall {
+  animation: cue-fall 2.2s var(--ease-in-out-soft) infinite;
+}
+
+@utility animate-halo {
+  animation: halo 2.8s ease-in-out infinite;
+}
+
+/* ---------- Ambient surfaces ---------- */
+
+/*
+ * Film grain. Keeps the big flat navy and cream fields from banding on
+ * wide gradients, and gives the dark sections some tooth.
+ */
+@utility bg-grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@utility bg-dots {
+  background-image: radial-gradient(
+    color-mix(in oklab, var(--primary) 14%, transparent) 1px,
+    transparent 1px
+  );
+  background-size: 24px 24px;
+}
+
+@utility bg-dots-light {
+  background-image: radial-gradient(
+    color-mix(in oklab, var(--primary-foreground) 16%, transparent) 1px,
+    transparent 1px
+  );
+  background-size: 26px 26px;
+}
+
+/*
+ * Fades a decorative layer out before it reaches the section edge, so
+ * patterns never collide with the next section's border.
+ */
+@utility mask-fade-y {
+  mask-image: linear-gradient(to bottom, transparent, #000 18%, #000 72%, transparent);
+}
+
+@utility mask-fade-x {
+  mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
+}
+
+/* ---------- Interaction ---------- */
+
+/*
+ * A light sweeps across the button on hover. Purely decorative, sits
+ * behind the label via a clipped overlay.
+ */
+@utility sheen {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  &::after {
+    content: "";
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: -60%;
+    inline-size: 45%;
+    z-index: -1;
+    background: linear-gradient(
+      100deg,
+      transparent,
+      color-mix(in oklab, white 55%, transparent),
+      transparent
+    );
+    transform: translateX(0);
+    transition: transform 0.75s var(--ease-out-expo);
+    pointer-events: none;
+  }
+  &:hover::after {
+    transform: translateX(360%);
+  }
+}
+
+/*
+ * A gold highlight that travels around the card border. Used once, on
+ * the recommended pricing plan — it earns attention precisely because
+ * nothing else on the page does this.
+ */
+@utility conic-ring {
+  position: relative;
+  &::before {
+    content: "";
+    position: absolute;
+    /*
+     * Negative inset puts the whole 1.5px band *outside* the element's
+     * border box, so the opaque card inside can never cover it and the
+     * ring needs no z-index fight with the card's own children.
+     */
+    inset: -1.5px;
+    border-radius: inherit;
+    padding: 1.5px;
+    background: conic-gradient(
+      from var(--ring-angle),
+      transparent 0deg,
+      var(--gold) 55deg,
+      color-mix(in oklab, var(--gold) 40%, transparent) 110deg,
+      transparent 190deg,
+      transparent 360deg
+    );
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    animation: ring-spin 7s linear infinite;
+    pointer-events: none;
+  }
+}
+
+/* ============================================================
+ * CINEMATIC LAYER
+ *
+ * The dark set pieces — hero, stats, CTA — are built from stacked
+ * translucent layers rather than flat fills: a desaturated photograph,
+ * a brand-colour wash, a vignette and grain. The point is that the
+ * photography reads as art-directed instead of dropped in, and that
+ * text contrast is controlled by the wash rather than by luck.
+ * ========================================================== */
+
+/*
+ * Strips the photograph back to luminance so the navy wash above it can
+ * recolour it wholesale. Without the desaturation step the original
+ * colour fights the brand palette and the result looks muddy.
+ */
+@utility photo-mono {
+  filter: grayscale(1) contrast(1.08) brightness(0.95);
+}
+
+/* Darkens the frame toward its edges so centred type always sits on the
+   deepest part of the image. */
+@utility vignette-navy {
+  background: radial-gradient(
+    68% 58% at 50% 42%,
+    transparent 0%,
+    color-mix(in oklab, var(--navy-deep) 92%, transparent) 100%
+  );
+}
+
+@utility bg-grid-gold {
+  background-image:
+    linear-gradient(
+      to right,
+      color-mix(in oklab, var(--gold) 11%, transparent) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      color-mix(in oklab, var(--gold) 11%, transparent) 1px,
+      transparent 1px
+    );
+  background-size: 74px 74px;
+}
+
+/* Frosted panel for anything floating over the dark hero. */
+@utility glass-dark {
+  background-color: color-mix(in oklab, var(--primary-foreground) 9%, transparent);
+  border: 1px solid color-mix(in oklab, var(--primary-foreground) 14%, transparent);
+  backdrop-filter: blur(16px) saturate(1.3);
+}
+
+/*
+ * A highlight travels through the gold headline phrase. The gradient is
+ * clipped to the glyphs, so it reads as light moving across metal. If
+ * the animation is suppressed the gradient simply sits still, which is
+ * still legible gold-on-navy.
+ */
+@keyframes text-shimmer {
+  to {
+    background-position: 200% center;
+  }
+}
+
+@utility text-shimmer-gold {
+  background-image: linear-gradient(
+    100deg,
+    var(--gold) 18%,
+    oklch(0.98 0.03 92) 42%,
+    var(--gold) 66%
+  );
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: text-shimmer 6s linear infinite;
+}
+
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@utility animate-spin-slow {
+  animation: spin-slow 28s linear infinite;
+}
+
+@utility animate-spin-slow-reverse {
+  animation: spin-slow 38s linear infinite reverse;
+}
+
+/* Underline that wipes in behind a word. Width is animated in JS. */
+@utility marker-gold {
+  background-image: linear-gradient(
+    transparent 72%,
+    color-mix(in oklab, var(--gold) 42%, transparent) 72%
+  );
+  background-repeat: no-repeat;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
