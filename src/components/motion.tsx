@@ -12,6 +12,7 @@ import {
   AnimatePresence,
   motion,
   useMotionTemplate,
+  useInView,
   useMotionValue,
   useReducedMotion,
   useScroll,
@@ -550,28 +551,43 @@ export function ImageReveal({
   height?: number;
 }) {
   const reduced = useReducedMotion();
+  /*
+   * Visibility is read from an unclipped wrapper. A box at
+   * `inset(100% …)` has no visible area, so observing it directly only
+   * fires once its bottom edge is on screen — and on some mobile browsers
+   * never fires at all, leaving the image permanently hidden.
+   */
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, VIEWPORT);
 
   return (
-    <motion.div
-      className={cn("overflow-hidden", className)}
-      initial={reduced ? { opacity: 0 } : { clipPath: "inset(100% 0% 0% 0%)" }}
-      whileInView={reduced ? { opacity: 1 } : { clipPath: "inset(0% 0% 0% 0%)" }}
-      viewport={VIEWPORT}
-      transition={{ duration, delay, ease: EASE_OUT }}
-    >
-      <motion.img
-        src={src}
-        alt={alt}
-        initial={reduced ? {} : { scale: 1.2 }}
-        whileInView={reduced ? {} : { scale: 1 }}
-        viewport={VIEWPORT}
-        transition={{ duration: duration * 1.5, delay, ease: EASE_OUT }}
-        className={cn("h-full w-full object-cover", imgClassName)}
-        loading={loading}
-        width={width}
-        height={height}
-      />
-    </motion.div>
+    <div ref={ref}>
+      <motion.div
+        className={cn("overflow-hidden", className)}
+        variants={
+          reduced
+            ? { hidden: { opacity: 0 }, shown: { opacity: 1 } }
+            : {
+                hidden: { clipPath: "inset(100% 0% 0% 0%)" },
+                shown: { clipPath: "inset(0% 0% 0% 0%)" },
+              }
+        }
+        initial="hidden"
+        animate={inView ? "shown" : "hidden"}
+        transition={{ duration, delay, ease: EASE_OUT }}
+      >
+        <motion.img
+          src={src}
+          alt={alt}
+          variants={reduced ? {} : { hidden: { scale: 1.2 }, shown: { scale: 1 } }}
+          transition={{ duration: duration * 1.5, delay, ease: EASE_OUT }}
+          className={cn("h-full w-full object-cover", imgClassName)}
+          loading={loading}
+          width={width}
+          height={height}
+        />
+      </motion.div>
+    </div>
   );
 }
 

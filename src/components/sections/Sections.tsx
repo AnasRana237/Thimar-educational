@@ -1,4 +1,11 @@
-import { AnimatePresence, motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import {
+  AnimatePresence,
+  motion,
+  useInView,
+  useReducedMotion,
+  useScroll,
+  useTransform,
+} from "framer-motion";
 import {
   ArrowLeft,
   ArrowRight,
@@ -50,6 +57,10 @@ import campusCourtyardPool from "@/assets/campus-courtyard-pool.mp4";
 import campusPoolBuilding from "@/assets/campus-pool-building.jpg";
 import campusPoolPalms from "@/assets/campus-pool-palms.jpg";
 import campusGrounds from "@/assets/campus-grounds.jpg";
+import includedMeals from "@/assets/included-meals.jpg";
+import includedAirport from "@/assets/included-airport.jpg";
+import includedAccommodation from "@/assets/included-accommodation.jpg";
+import includedSim from "@/assets/included-sim.jpg";
 import logo from "@/assets/thimar-logo.png";
 
 /*
@@ -237,6 +248,14 @@ export function PhotoBreak() {
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
   const y = useTransform(scrollYProgress, [0, 1], ["-10%", "10%"]);
+  /*
+   * Watched on the unclipped container, not the lines: each line starts
+   * pushed fully below its own overflow box, where an observer on the line
+   * itself sees no visible area and never fires — wrapped desktop lines
+   * stayed hidden for good.
+   */
+  const linesRef = useRef<HTMLDivElement>(null);
+  const linesInView = useInView(linesRef, { once: true, margin: "-120px" });
 
   return (
     <section
@@ -260,7 +279,7 @@ export function PhotoBreak() {
       <div className="vignette-navy absolute inset-0 -z-10" aria-hidden="true" />
       <div className="bg-grain absolute inset-0 -z-10 opacity-[0.07]" aria-hidden="true" />
 
-      <div className="relative mx-auto w-full max-w-5xl px-5 sm:px-8">
+      <div ref={linesRef} className="relative mx-auto w-full max-w-5xl px-5 sm:px-8">
         {t.statement.lines.map((line, i) => (
           <span key={line} className="block overflow-hidden pb-[0.12em] [margin-block-end:-0.12em]">
             <motion.span
@@ -269,9 +288,12 @@ export function PhotoBreak() {
                 // The last line is the payoff, so it carries the gold.
                 i === t.statement.lines.length - 1 ? "text-gold" : "text-cream",
               )}
-              initial={reduced ? { opacity: 0 } : { opacity: 0, y: "105%" }}
-              whileInView={{ opacity: 1, y: "0%" }}
-              viewport={{ once: true, margin: "-120px" }}
+              variants={{
+                hidden: reduced ? { opacity: 0 } : { opacity: 0, y: "105%" },
+                shown: { opacity: 1, y: "0%" },
+              }}
+              initial="hidden"
+              animate={linesInView ? "shown" : "hidden"}
               transition={{ duration: 0.85, delay: i * 0.13, ease: EASE_OUT }}
             >
               {line}
@@ -362,6 +384,109 @@ export function Programs() {
  */
 const WHY_SPAN = ["lg:col-span-2", "", "", "", "", "lg:col-span-2"];
 
+/* One photo per included item, in the same order as the content files. */
+const WHY_IMAGES: { src: string; position?: string }[] = [
+  { src: includedMeals, position: "object-[center_70%]" },
+  { src: includedAirport, position: "object-[70%_center]" },
+  { src: campusPoolPalms, position: "object-[center_75%]" },
+  { src: includedAccommodation, position: "object-[75%_center]" },
+  { src: campusGrounds },
+  { src: includedSim, position: "object-[70%_center]" },
+];
+
+/* Every state change in a tile runs on the same curve and duration. */
+const WHY_EASE = "duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]";
+
+/*
+ * Each tile keeps a photo of what it promises behind the type, held back as
+ * a faint mono wash so the words read first. Pointing at a tile develops
+ * the photo to full colour and turns the type cream over a navy scrim. Touch
+ * screens have no hover, so there the tile develops as it crosses the middle
+ * of the viewport instead.
+ */
+function WhyTile({
+  item,
+  image,
+  delay,
+  className,
+}: {
+  item: { icon: string; title: string; body: string };
+  image: { src: string; position?: string } | undefined;
+  delay: number;
+  className: string | undefined;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [touch, setTouch] = useState(false);
+  const centred = useInView(ref, { margin: "-40% 0px -40% 0px" });
+  useEffect(() => setTouch(window.matchMedia("(hover: none)").matches), []);
+  const active = touch && centred;
+
+  return (
+    <Reveal delay={delay} className={cn("h-full", className)}>
+      <Spotlight className="h-full rounded-2xl" radius={300} strength={16}>
+        <div
+          ref={ref}
+          data-active={active || undefined}
+          className="group relative isolate flex h-full min-h-60 flex-col justify-end overflow-hidden rounded-2xl border border-border bg-card p-7"
+        >
+          {image && (
+            <img
+              src={image.src}
+              alt=""
+              aria-hidden="true"
+              loading="lazy"
+              className={cn(
+                "absolute inset-0 -z-10 size-full scale-110 object-cover opacity-45 grayscale transition-[opacity,filter,scale] group-hover:scale-100 group-hover:opacity-100 group-hover:grayscale-0 group-data-active:scale-100 group-data-active:opacity-100 group-data-active:grayscale-0 motion-reduce:scale-100",
+                WHY_EASE,
+                image.position,
+              )}
+            />
+          )}
+          {/* Resting veil: lifts the faded photo toward the card so navy type reads on it. */}
+          <div
+            className={cn(
+              "absolute inset-0 -z-10 bg-gradient-to-t from-card from-30% via-card/70 to-card/10 transition-opacity group-hover:opacity-0 group-data-active:opacity-0",
+              WHY_EASE,
+            )}
+            aria-hidden="true"
+          />
+          {/* Active scrim: deepens under the type once the photo is in colour. */}
+          <div
+            className={cn(
+              "absolute inset-0 -z-10 bg-gradient-to-t from-navy-deep/95 via-navy-deep/55 to-navy-deep/0 opacity-0 transition-opacity group-hover:opacity-100 group-data-active:opacity-100",
+              WHY_EASE,
+            )}
+            aria-hidden="true"
+          />
+
+          <span className="inline-flex size-10 items-center justify-center rounded-lg bg-gold/15 text-gold-ink transition-colors duration-300 group-hover:bg-gold group-hover:text-gold-foreground group-data-active:bg-gold group-data-active:text-gold-foreground">
+            <DynamicIcon
+              name={item.icon}
+              className="size-5 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-110 group-data-active:scale-110"
+            />
+          </span>
+          <h3
+            className={cn(
+              "mt-5 text-lg text-primary transition-colors group-hover:text-cream group-data-active:text-cream",
+              WHY_EASE,
+            )}
+          >
+            {item.title}
+          </h3>
+          <p
+            className={cn(
+              "mt-2 text-sm leading-relaxed text-muted-foreground transition-colors group-hover:text-cream/80 group-data-active:text-cream/80",
+              WHY_EASE,
+            )}
+          >
+            {item.body}
+          </p>
+        </div>
+      </Spotlight>
+    </Reveal>
+  );
+}
+
 export function Why() {
   const { t } = useI18n();
   const items = t.why.items;
@@ -370,20 +495,13 @@ export function Why() {
     const w = items[i];
     if (!w) return null;
     return (
-      <Reveal key={w.title} delay={i * 0.05} className={cn("h-full", WHY_SPAN[i])}>
-        <Spotlight className="card-quiet h-full" radius={300} strength={16}>
-          <div className="group flex h-full flex-col p-7">
-            <span className="inline-flex size-10 items-center justify-center rounded-lg bg-gold/15 text-gold-ink transition-colors duration-300 group-hover:bg-gold group-hover:text-gold-foreground">
-              <DynamicIcon
-                name={w.icon}
-                className="size-5 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-110"
-              />
-            </span>
-            <h3 className="mt-5 text-lg text-primary">{w.title}</h3>
-            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{w.body}</p>
-          </div>
-        </Spotlight>
-      </Reveal>
+      <WhyTile
+        key={w.title}
+        item={w}
+        image={WHY_IMAGES[i]}
+        delay={i * 0.05}
+        className={WHY_SPAN[i]}
+      />
     );
   };
 
@@ -404,7 +522,7 @@ export function Why() {
               alt=""
               aria-hidden="true"
               loading="lazy"
-              className="photo-mono size-full object-cover opacity-45 transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105"
+              className="photo-mono absolute inset-0 size-full object-cover opacity-45 transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-navy-deep via-navy-deep/40 to-transparent" />
             <div className="absolute inset-x-0 bottom-0 p-6">
@@ -840,7 +958,12 @@ export function Gallery() {
                 {item.video ? (
                   <GalleryVideo src={item.src} className={media} />
                 ) : (
-                  <img src={item.src} alt={t.gallery.captions[k]} loading="lazy" className={media} />
+                  <img
+                    src={item.src}
+                    alt={t.gallery.captions[k]}
+                    loading="lazy"
+                    className={media}
+                  />
                 )}
                 {item.video && (
                   <span className="absolute top-3 start-3 inline-flex size-8 items-center justify-center rounded-full bg-navy-deep/55 text-primary-foreground backdrop-blur-sm">
