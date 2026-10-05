@@ -251,22 +251,16 @@ export const en = {
     title: "Life at Thimar",
     subtitle: "A look inside the academy, our classes and daily life.",
     close: "Close",
-    prev: "Previous image",
-    next: "Next image",
-    /*
-     * Kept deliberately general because the current images are stock and do
-     * not show this academy. The previous captions named specific
-     * facilities — a pool, the dining hall, a one-to-one session — that the
-     * photographs do not depict, which is a claim the page cannot support.
-     * Restore specific captions once real photography is in place.
-     */
+    prev: "Previous",
+    next: "Next",
     captions: [
-      "Learning together",
-      "Celebrating progress",
-      "Reading and study",
-      "Focused practice",
-      "Study space",
-      "Students at work",
+      "Arriving at the main academy building",
+      "Swimming pool and student residence",
+      "Courtyard, gazebos and pool",
+      "Palm-lined pool area",
+      "Academy grounds and entrance",
+      "Group conversation class",
+      "Learning together in small groups",
     ],
   },
   faq: {

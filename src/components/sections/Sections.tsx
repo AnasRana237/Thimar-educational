@@ -13,6 +13,7 @@ import {
   MapPin,
   MessageCircle,
   Phone,
+  Play,
   Quote,
   Twitter,
   X,
@@ -42,14 +43,61 @@ import { site, whatsappLink } from "@/content/site";
 import { cn } from "@/lib/utils";
 import aboutImg from "@/assets/about-classroom.jpg";
 import g1 from "@/assets/gallery-1.jpg";
-import g2 from "@/assets/gallery-2.jpg";
-import g3 from "@/assets/gallery-3.jpg";
 import g4 from "@/assets/gallery-4.jpg";
 import g5 from "@/assets/gallery-5.jpg";
-import heroImg from "@/assets/hero-students.jpg";
+import campusEntranceTour from "@/assets/campus-entrance-tour.mp4";
+import campusCourtyardPool from "@/assets/campus-courtyard-pool.mp4";
+import campusPoolBuilding from "@/assets/campus-pool-building.jpg";
+import campusPoolPalms from "@/assets/campus-pool-palms.jpg";
+import campusGrounds from "@/assets/campus-grounds.jpg";
 import logo from "@/assets/thimar-logo.png";
 
-const galleryImgs = [g1, g2, g3, g4, g5, heroImg];
+/*
+ * Order matters: on large screens the two portrait videos frame the lead photo
+ * (1 + 2 + 1 columns), and the grid's dense flow keeps the two-column mobile
+ * layout free of gaps. Captions in the content files follow this same order.
+ */
+const galleryItems: { src: string; video?: boolean; span?: string; position?: string }[] = [
+  { src: campusEntranceTour, video: true, span: "row-span-2" },
+  { src: campusPoolBuilding, span: "col-span-2 row-span-2", position: "object-[center_70%]" },
+  { src: campusCourtyardPool, video: true, span: "row-span-2" },
+  { src: campusPoolPalms },
+  { src: campusGrounds },
+  { src: g4 },
+  { src: g1 },
+];
+
+/* Muted clip that only plays while on screen, and stays on its first frame for reduced motion. */
+function GalleryVideo({ src, className }: { src: string; className?: string }) {
+  const ref = useRef<HTMLVideoElement>(null);
+  const reduced = useReducedMotion();
+  useEffect(() => {
+    const v = ref.current;
+    if (!v || reduced) return;
+    v.muted = true;
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (e?.isIntersecting) v.play().catch(() => {});
+        else v.pause();
+      },
+      { threshold: 0.25 },
+    );
+    io.observe(v);
+    return () => io.disconnect();
+  }, [reduced]);
+  return (
+    <video
+      ref={ref}
+      src={`${src}#t=0.1`}
+      muted
+      loop
+      playsInline
+      preload="metadata"
+      aria-hidden="true"
+      className={className}
+    />
+  );
+}
 
 /*
  * Stats continue the hero's dark run rather than interrupting it with a
@@ -714,7 +762,7 @@ export function Gallery() {
   const { t } = useI18n();
   const [open, setOpen] = useState<number | null>(null);
   const [dir, setDir] = useState(1);
-  const n = galleryImgs.length;
+  const n = galleryItems.length;
   const dialogRef = useRef<HTMLDivElement>(null);
   const restoreTo = useRef<HTMLElement | null>(null);
 
@@ -769,35 +817,46 @@ export function Gallery() {
         title={t.gallery.title}
         subtitle={t.gallery.subtitle}
       />
-      {/* Bento grid: the lead image carries weight instead of six equal tiles. */}
-      <div className="mt-14 grid auto-rows-[11rem] grid-cols-2 gap-4 sm:auto-rows-[13rem] lg:grid-cols-4">
-        {galleryImgs.map((src, k) => (
-          <Reveal key={k} delay={k * 0.05} className={cn(k === 0 && "col-span-2 row-span-2")}>
-            <button
-              onClick={() => {
-                setDir(1);
-                setOpen(k);
-              }}
-              aria-haspopup="dialog"
-              className="group relative block size-full overflow-hidden rounded-2xl bg-muted transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] active:scale-[0.98]"
-            >
-              {/* Art-directed at rest, alive on hover: the tiles sit as a
-                  monochrome set so the grid reads as one composition, and
-                  the photograph returns to full colour under the cursor. */}
-              <img
-                src={src}
-                alt={t.gallery.captions[k]}
-                loading="lazy"
-                className="size-full object-cover grayscale transition-[transform,filter] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105 group-hover:grayscale-0"
-              />
-              <span className="absolute inset-0 bg-navy-deep/40 transition-opacity duration-500 group-hover:opacity-0" />
-              <span className="absolute inset-0 bg-gradient-to-t from-navy-deep/85 via-navy-deep/10 to-transparent opacity-0 transition-opacity duration-400 group-hover:opacity-100" />
-              <span className="absolute inset-x-0 bottom-0 translate-y-2 p-4 text-start text-sm font-medium text-primary-foreground opacity-0 transition-all duration-400 group-hover:translate-y-0 group-hover:opacity-100">
-                {t.gallery.captions[k]}
-              </span>
-            </button>
-          </Reveal>
-        ))}
+      {/* Bento grid: a lead photo framed by two portrait campus videos. */}
+      <div className="mt-14 grid grid-flow-dense auto-rows-[11rem] grid-cols-2 gap-4 sm:auto-rows-[13rem] lg:grid-cols-4">
+        {galleryItems.map((item, k) => {
+          // Art-directed at rest, alive on hover: the tiles sit as a
+          // monochrome set so the grid reads as one composition, and
+          // the media returns to full colour under the cursor.
+          const media = cn(
+            "size-full object-cover grayscale transition-[transform,filter] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105 group-hover:grayscale-0",
+            item.position,
+          );
+          return (
+            <Reveal key={item.src} delay={k * 0.05} className={item.span ?? ""}>
+              <button
+                onClick={() => {
+                  setDir(1);
+                  setOpen(k);
+                }}
+                aria-haspopup="dialog"
+                aria-label={t.gallery.captions[k]}
+                className="group relative block size-full overflow-hidden rounded-2xl bg-muted transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] active:scale-[0.98]"
+              >
+                {item.video ? (
+                  <GalleryVideo src={item.src} className={media} />
+                ) : (
+                  <img src={item.src} alt={t.gallery.captions[k]} loading="lazy" className={media} />
+                )}
+                <span className="absolute inset-0 bg-navy-deep/40 transition-opacity duration-500 group-hover:opacity-0" />
+                {item.video && (
+                  <span className="absolute top-3 start-3 inline-flex size-8 items-center justify-center rounded-full bg-navy-deep/55 text-primary-foreground backdrop-blur-sm">
+                    <Play className="size-3.5 fill-current" aria-hidden="true" />
+                  </span>
+                )}
+                <span className="absolute inset-0 bg-gradient-to-t from-navy-deep/85 via-navy-deep/10 to-transparent opacity-0 transition-opacity duration-400 group-hover:opacity-100" />
+                <span className="absolute inset-x-0 bottom-0 translate-y-2 p-4 text-start text-sm font-medium text-primary-foreground opacity-0 transition-all duration-400 group-hover:translate-y-0 group-hover:opacity-100">
+                  {t.gallery.captions[k]}
+                </span>
+              </button>
+            </Reveal>
+          );
+        })}
       </div>
 
       <AnimatePresence>
@@ -844,16 +903,34 @@ export function Gallery() {
                * Remounting on key change gives the same enter animation
                * without that risk.
                */}
-              <motion.img
-                key={open}
-                src={galleryImgs[open]}
-                alt={t.gallery.captions[open]}
-                initial={{ opacity: 0, scale: 0.94, x: dir * 36 }}
-                animate={{ opacity: 1, scale: 1, x: 0 }}
-                transition={{ duration: 0.32, ease: EASE_OUT }}
-                className="max-h-[78vh] max-w-full rounded-2xl shadow-[var(--shadow-lift)]"
-                onClick={(e) => e.stopPropagation()}
-              />
+              {galleryItems[open]?.video ? (
+                <motion.video
+                  key={open}
+                  src={galleryItems[open]?.src}
+                  aria-label={t.gallery.captions[open]}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  controls
+                  initial={{ opacity: 0, scale: 0.94, x: dir * 36 }}
+                  animate={{ opacity: 1, scale: 1, x: 0 }}
+                  transition={{ duration: 0.32, ease: EASE_OUT }}
+                  className="max-h-[78vh] max-w-full rounded-2xl shadow-[var(--shadow-lift)]"
+                  onClick={(e) => e.stopPropagation()}
+                />
+              ) : (
+                <motion.img
+                  key={open}
+                  src={galleryItems[open]?.src}
+                  alt={t.gallery.captions[open]}
+                  initial={{ opacity: 0, scale: 0.94, x: dir * 36 }}
+                  animate={{ opacity: 1, scale: 1, x: 0 }}
+                  transition={{ duration: 0.32, ease: EASE_OUT }}
+                  className="max-h-[78vh] max-w-full rounded-2xl shadow-[var(--shadow-lift)]"
+                  onClick={(e) => e.stopPropagation()}
+                />
+              )}
               <figcaption className="flex items-center gap-3 text-sm text-primary-foreground/80">
                 <span className="font-display text-xs font-bold text-gold" dir="ltr">
                   {open + 1} / {n}
