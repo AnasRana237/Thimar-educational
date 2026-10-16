@@ -44,10 +44,10 @@ export const en = {
     floatB: "Full immersion",
   },
   stats: [
-    { value: 0, suffix: "", text: "Clark", label: "Philippines" },
     { value: 3, suffix: "", text: "", label: "Meals every day" },
     { value: 6, suffix: "", text: "", label: "Classes every day" },
-    { value: 0, suffix: "", text: "Gym", label: "And a swimming pool" },
+    { value: 4, suffix: "", text: "", label: "One-to-one classes a day" },
+    { value: 8, suffix: "", text: "", label: "Services in one price" },
   ],
   statement: {
     lines: ["Clark, Philippines.", "A campus you live in.", "A city you step into."],

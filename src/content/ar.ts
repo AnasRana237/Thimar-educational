@@ -41,10 +41,10 @@ export const ar: Content = {
     floatB: "انغماس كامل",
   },
   stats: [
-    { value: 0, suffix: "", text: "كلارك", label: "الفلبين" },
     { value: 3, suffix: "", text: "", label: "وجبات يومياً" },
     { value: 6, suffix: "", text: "", label: "حصص يومياً" },
-    { value: 0, suffix: "", text: "صالة", label: "ومسبح داخل الحرم" },
+    { value: 4, suffix: "", text: "", label: "حصص فردية يومياً" },
+    { value: 8, suffix: "", text: "", label: "خدمات بسعر واحد" },
   ],
   statement: {
     lines: ["كلارك، الفلبين.", "حرم تعيش فيه.", "ومدينة تخرج إليها."],
