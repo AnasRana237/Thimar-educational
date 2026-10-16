@@ -49,26 +49,27 @@ import { DynamicIcon, TikTok } from "@/components/icons";
 import { EASE_OUT, SPRING_SNAP, STAGGER, VIEWPORT } from "@/lib/motion";
 import { site, whatsappLink } from "@/content/site";
 import { cn } from "@/lib/utils";
+import campusEntranceTour from "@/assets/campus-entrance-tour.mp4";
+import campusCourtyardPool from "@/assets/campus-courtyard-pool.mp4";
+import campusPoolBuilding from "@/assets/campus-pool-building.jpg";
+import campusPoolPalms from "@/assets/campus-pool-palms.jpg";
+import campusGrounds from "@/assets/campus-grounds.jpg";
 import logo from "@/assets/thimar-logo.png";
 
 /*
- * Real photographs from the academy and from Clark / Angeles. Photos that
- * include women are intentionally absent. Captions in the content files
- * follow this same order.
+ * Real campus photos and clips, plus three student photos. No stock or
+ * generated images. Captions in the content files follow this same order.
  */
 const galleryItems: { src: string; video?: boolean; span?: string; position?: string }[] = [
-  { src: "/image3.jpeg", span: "col-span-2 row-span-2", position: "object-[center_62%]" },
-  { src: "/image13.jpeg", span: "col-span-2", position: "object-[center_92%]" },
-  { src: "/image6.jpeg", position: "object-[center_40%]" },
-  { src: "/image1.jpeg", position: "object-center" },
-  { src: "/image16.jpeg", span: "row-span-2", position: "object-[center_42%]" },
+  { src: campusEntranceTour, video: true, span: "row-span-2" },
+  { src: campusPoolBuilding, span: "col-span-2 row-span-2", position: "object-[center_70%]" },
+  { src: campusCourtyardPool, video: true, span: "row-span-2" },
+  { src: campusPoolPalms },
+  { src: campusGrounds },
+  { src: "/image3.jpeg", span: "col-span-2", position: "object-[center_46%]" },
+  { src: "/image16.jpeg", position: "object-[center_34%]" },
   { src: "/image9.jpeg", position: "object-[center_40%]" },
-  { src: "/image14.jpeg", span: "col-span-2", position: "object-[center_94%]" },
-  { src: "/image11.jpeg", position: "object-[78%_center]" },
-  { src: "/image12.jpeg" },
-  { src: "/image15.jpeg", span: "col-span-2", position: "object-[center_46%]" },
-  { src: "/image10.jpeg", position: "object-[28%_center]" },
-  { src: "/image7.jpeg" },
+  { src: "/image15.jpeg", span: "col-span-2", position: "object-[center_42%]" },
 ];
 
 /* Lifestyle cards, in the same order as `place.items`. */
