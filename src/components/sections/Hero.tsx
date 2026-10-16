@@ -1,9 +1,6 @@
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { useRef } from "react";
-import g1 from "@/assets/gallery-1.jpg";
-import g4 from "@/assets/gallery-4.jpg";
-import heroImg from "@/assets/hero-students.jpg";
 import { useI18n } from "@/lib/i18n";
 import { EASE_OUT } from "@/lib/motion";
 import { Magnetic, Marquee, RotatingWords, SplitWords, useMouseDepth } from "@/components/motion";
@@ -60,7 +57,7 @@ export function Hero() {
         aria-hidden="true"
       >
         <motion.img
-          src={heroImg}
+          src="/image15.jpeg"
           alt=""
           /* Oversized so parallax travel never exposes an edge. */
           className="photo-mono absolute inset-0 size-full scale-[1.15] object-cover opacity-55"
@@ -131,7 +128,7 @@ export function Hero() {
         aria-hidden="true"
       >
         <div className="overflow-hidden rounded-2xl border border-gold/25 shadow-[var(--shadow-lift)]">
-          <img src={g1} alt="" className="photo-mono h-56 w-full object-cover opacity-80" />
+          <img src="/image13.jpeg" alt="" className="photo-mono h-56 w-full object-cover opacity-80" />
         </div>
       </motion.div>
 
@@ -144,7 +141,7 @@ export function Hero() {
         aria-hidden="true"
       >
         <div className="overflow-hidden rounded-2xl border border-gold/25 shadow-[var(--shadow-lift)]">
-          <img src={g4} alt="" className="photo-mono h-48 w-full object-cover opacity-80" />
+          <img src="/image6.jpeg" alt="" className="photo-mono h-48 w-full object-cover opacity-80" />
         </div>
       </motion.div>
 
@@ -211,7 +208,7 @@ export function Hero() {
           </Magnetic>
           <Magnetic strength={0.14}>
             <a
-              href="#about"
+              href="#place"
               className="glass-dark inline-flex items-center justify-center gap-2 rounded-xl px-8 py-4 text-sm font-semibold text-cream transition-colors duration-300 hover:border-gold/40 hover:bg-gold/10"
             >
               {t.hero.secondaryCta}
@@ -241,7 +238,7 @@ export function Hero() {
 
       {/* ---- Scroll cue ---- */}
       <a
-        href="#rhythm"
+        href="#place"
         aria-label={t.hero.scroll}
         className={cn(
           "group absolute bottom-20 start-1/2 z-10 hidden -translate-x-1/2 flex-col items-center gap-2 sm:flex",

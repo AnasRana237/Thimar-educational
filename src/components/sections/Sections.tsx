@@ -10,6 +10,7 @@ import {
   ArrowLeft,
   ArrowRight,
   ArrowUp,
+  BadgePercent,
   Check,
   ChevronDown,
   ChevronLeft,
@@ -48,34 +49,45 @@ import { DynamicIcon, TikTok } from "@/components/icons";
 import { EASE_OUT, SPRING_SNAP, STAGGER, VIEWPORT } from "@/lib/motion";
 import { site, whatsappLink } from "@/content/site";
 import { cn } from "@/lib/utils";
-import aboutImg from "@/assets/about-classroom.jpg";
-import g1 from "@/assets/gallery-1.jpg";
-import g4 from "@/assets/gallery-4.jpg";
-import g5 from "@/assets/gallery-5.jpg";
-import campusEntranceTour from "@/assets/campus-entrance-tour.mp4";
-import campusCourtyardPool from "@/assets/campus-courtyard-pool.mp4";
-import campusPoolBuilding from "@/assets/campus-pool-building.jpg";
-import campusPoolPalms from "@/assets/campus-pool-palms.jpg";
-import campusGrounds from "@/assets/campus-grounds.jpg";
-import includedMeals from "@/assets/included-meals.jpg";
-import includedAirport from "@/assets/included-airport.jpg";
-import includedAccommodation from "@/assets/included-accommodation.jpg";
-import includedSim from "@/assets/included-sim.jpg";
 import logo from "@/assets/thimar-logo.png";
 
 /*
- * Order matters: on large screens the two portrait videos frame the lead photo
- * (1 + 2 + 1 columns), and the grid's dense flow keeps the two-column mobile
- * layout free of gaps. Captions in the content files follow this same order.
+ * Real photographs from the academy and from Clark / Angeles. Photos that
+ * include women are intentionally absent. Captions in the content files
+ * follow this same order.
  */
 const galleryItems: { src: string; video?: boolean; span?: string; position?: string }[] = [
-  { src: campusEntranceTour, video: true, span: "row-span-2" },
-  { src: campusPoolBuilding, span: "col-span-2 row-span-2", position: "object-[center_70%]" },
-  { src: campusCourtyardPool, video: true, span: "row-span-2" },
-  { src: campusPoolPalms },
-  { src: campusGrounds },
-  { src: g4 },
-  { src: g1 },
+  { src: "/image3.jpeg", span: "col-span-2 row-span-2", position: "object-[center_62%]" },
+  { src: "/image13.jpeg", span: "col-span-2", position: "object-[center_92%]" },
+  { src: "/image6.jpeg", position: "object-[center_40%]" },
+  { src: "/image1.jpeg", position: "object-center" },
+  { src: "/image16.jpeg", span: "row-span-2", position: "object-[center_42%]" },
+  { src: "/image9.jpeg", position: "object-[center_40%]" },
+  { src: "/image14.jpeg", span: "col-span-2", position: "object-[center_94%]" },
+  { src: "/image11.jpeg", position: "object-[78%_center]" },
+  { src: "/image12.jpeg" },
+  { src: "/image15.jpeg", span: "col-span-2", position: "object-[center_46%]" },
+  { src: "/image10.jpeg", position: "object-[28%_center]" },
+  { src: "/image7.jpeg" },
+];
+
+/* Lifestyle cards, in the same order as `place.items`. */
+const PLACE_IMAGES = [
+  "/image9.jpeg",
+  "/image11.jpeg",
+  "/image13.jpeg",
+  "/image14.jpeg",
+  "/image12.jpeg",
+  "/image6.jpeg",
+];
+
+const PLACE_POSITIONS = [
+  "object-[center_40%]",
+  "object-[78%_center]",
+  "object-[center_72%]",
+  "object-[center_92%]",
+  "object-center",
+  "object-[center_32%]",
 ];
 
 /* Muted clip that only plays while on screen, and stays on its first frame for reduced motion. */
@@ -131,8 +143,15 @@ export function Stats() {
               className="pointer-events-none absolute start-1/2 top-4 -z-10 size-28 -translate-x-1/2 rounded-full bg-gold/20 opacity-0 blur-3xl transition-opacity duration-700 group-hover:opacity-100"
               aria-hidden="true"
             />
-            <div className="font-display text-5xl font-bold text-primary-foreground sm:text-6xl lg:text-7xl">
-              <CountUp value={s.value} suffix={s.suffix} />
+            <div
+              className={cn(
+                "font-display font-bold text-primary-foreground",
+                s.text
+                  ? "text-4xl sm:text-5xl lg:text-6xl"
+                  : "text-5xl sm:text-6xl lg:text-7xl",
+              )}
+            >
+              {s.text ? s.text : <CountUp value={s.value} suffix={s.suffix} />}
             </div>
             <motion.span
               className="mx-auto mt-5 block h-0.5 w-8 rounded-full bg-gold"
@@ -182,9 +201,10 @@ export function About() {
               aria-hidden="true"
             />
             <ImageReveal
-              src={aboutImg}
+              src="/image1.jpeg"
               alt={t.about.title}
               className="aspect-4/5 w-full rounded-4xl shadow-[var(--shadow-lift)]"
+              imgClassName="object-[center_35%]"
             />
           </div>
         </Parallax>
@@ -233,6 +253,42 @@ export function About() {
 }
 
 /*
+ * Clark and Angeles, before the class plan. Real photographs only.
+ */
+export function Place() {
+  const { t } = useI18n();
+  return (
+    <Section id="place" tone="cream" pad="lg">
+      <SectionHeading
+        eyebrow={t.place.eyebrow}
+        title={t.place.title}
+        subtitle={t.place.subtitle}
+        size="xl"
+      />
+
+      <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {t.place.items.map((item, i) => (
+          <Reveal key={item.title} delay={i * 0.05}>
+            <article className="h-full overflow-hidden rounded-2xl border border-border bg-card">
+              <img
+                src={PLACE_IMAGES[i]}
+                alt=""
+                loading="lazy"
+                className={cn("aspect-4/3 w-full object-cover", PLACE_POSITIONS[i])}
+              />
+              <div className="p-5">
+                <h3 className="text-lg text-primary">{item.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.body}</p>
+              </div>
+            </article>
+          </Reveal>
+        ))}
+      </div>
+    </Section>
+  );
+}
+
+/*
  * The page's one full-bleed moment.
  *
  * Everything else lives inside the same 7xl container at the same padding,
@@ -265,7 +321,7 @@ export function PhotoBreak() {
       {/* Oversized so the parallax travel never exposes an edge. framer
           writes `transform` inline, so the scale has to live there too. */}
       <motion.img
-        src={g5}
+        src="/image13.jpeg"
         alt=""
         aria-hidden="true"
         loading="lazy"
@@ -386,12 +442,12 @@ const WHY_SPAN = ["lg:col-span-2", "", "", "", "", "lg:col-span-2"];
 
 /* One photo per included item, in the same order as the content files. */
 const WHY_IMAGES: { src: string; position?: string }[] = [
-  { src: includedMeals, position: "object-[center_70%]" },
-  { src: includedAirport, position: "object-[70%_center]" },
-  { src: campusPoolPalms, position: "object-[center_75%]" },
-  { src: includedAccommodation, position: "object-[75%_center]" },
-  { src: campusGrounds },
-  { src: includedSim, position: "object-[70%_center]" },
+  { src: "/image1.jpeg", position: "object-center" },
+  { src: "/image13.jpeg", position: "object-center" },
+  { src: "/image9.jpeg", position: "object-center" },
+  { src: "/image10.jpeg", position: "object-[28%_center]" },
+  { src: "/image12.jpeg" },
+  { src: "/image7.jpeg", position: "object-center" },
 ];
 
 /* Every state change in a tile runs on the same curve and duration. */
@@ -518,11 +574,11 @@ export function Why() {
         <Reveal delay={0.1} className="sm:col-span-2">
           <div className="group relative h-full min-h-48 overflow-hidden rounded-2xl bg-navy-deep">
             <img
-              src={g5}
+              src="/image16.jpeg"
               alt=""
               aria-hidden="true"
               loading="lazy"
-              className="photo-mono absolute inset-0 size-full object-cover opacity-45 transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105"
+              className="photo-mono absolute inset-0 size-full object-cover object-[center_28%] opacity-45 transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-navy-deep via-navy-deep/40 to-transparent" />
             <div className="absolute inset-x-0 bottom-0 p-6">
@@ -657,7 +713,7 @@ export function Pricing() {
       />
       <div className="mt-14 grid items-stretch gap-5 lg:grid-cols-3">
         {t.pricing.plans.map((p, i) => {
-          const pop = i === 1;
+          const pop = p.highlight;
           return (
             <Reveal key={p.name} delay={i * 0.09} className="h-full">
               <Spotlight
@@ -696,26 +752,52 @@ export function Pricing() {
                   </p>
                   <div
                     className={cn(
-                      "mt-6 flex items-baseline gap-1.5 border-t pt-6",
+                      "mt-6 border-t pt-6",
                       pop ? "border-primary-foreground/15" : "border-border",
                     )}
                   >
-                    <span
+                    <div className="flex flex-wrap items-center gap-x-2 gap-y-2">
+                      <span
+                        className={cn(
+                          "font-display text-4xl font-bold",
+                          pop ? "text-gold" : "text-primary",
+                        )}
+                      >
+                        {p.price}
+                      </span>
+                      <span
+                        className={cn(
+                          "text-sm",
+                          pop ? "text-primary-foreground/60" : "text-muted-foreground",
+                        )}
+                      >
+                        {t.pricing.perMonth}
+                      </span>
+                      {p.savings ? (
+                        <span
+                          className={cn(
+                            "inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-semibold",
+                            pop
+                              ? "bg-gold text-gold-foreground"
+                              : "bg-gold/15 text-gold-ink",
+                          )}
+                        >
+                          <BadgePercent className="size-3.5 shrink-0" aria-hidden="true" />
+                          {p.savings}
+                        </span>
+                      ) : null}
+                    </div>
+                    <p
                       className={cn(
-                        "font-display text-4xl font-bold",
-                        pop ? "text-gold" : "text-primary",
+                        "mt-2 text-sm",
+                        pop ? "text-primary-foreground/70" : "text-muted-foreground",
                       )}
                     >
-                      {p.price}
-                    </span>
-                    <span
-                      className={cn(
-                        "text-sm",
-                        pop ? "text-primary-foreground/60" : "text-muted-foreground",
-                      )}
-                    >
-                      {t.pricing.perMonth}
-                    </span>
+                      <span className={cn("font-semibold", pop ? "text-cream" : "text-primary")}>
+                        {t.pricing.totalLabel}
+                      </span>{" "}
+                      {p.total}
+                    </p>
                   </div>
                   <ul className="mt-6 flex-1 space-y-3 text-sm">
                     {p.features.map((f, k) => (
@@ -746,6 +828,11 @@ export function Pricing() {
           );
         })}
       </div>
+      <Reveal>
+        <p className="mx-auto mt-8 max-w-2xl text-center text-sm leading-relaxed text-muted-foreground">
+          {t.pricing.includedNote}
+        </p>
+      </Reveal>
     </Section>
   );
 }
@@ -1315,8 +1402,8 @@ export function Contact() {
                 <option value="" disabled>
                   {f.programPlaceholder}
                 </option>
-                {t.programs.items.map((p) => (
-                  <option key={p.title}>{p.title}</option>
+                {f.options.map((option) => (
+                  <option key={option}>{option}</option>
                 ))}
               </select>
             </label>

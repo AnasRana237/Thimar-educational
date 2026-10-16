@@ -13,6 +13,7 @@ import {
   Gallery,
   How,
   PhotoBreak,
+  Place,
   Pricing,
   Programs,
   Stats,
@@ -23,17 +24,17 @@ import {
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "ثمار التعليمية | Thimar Educational" },
+      { title: "Study English in the Philippines | Thimar Educational · Clark" },
       {
         name: "description",
         content:
-          "Thimar Educational: personalised programs, expert tutors and small groups that help every student grow.",
+          "Thimar Educational is a full-immersion English program in Clark, Philippines, beside Angeles City, with campus life, meals, a gym, a pool, and daily classes.",
       },
-      { property: "og:title", content: "ثمار التعليمية | Thimar Educational" },
+      { property: "og:title", content: "Study English in the Philippines | Thimar · Clark" },
       {
         property: "og:description",
         content:
-          "Personalised programs, expert tutors and small groups that help every student grow.",
+          "Full-immersion English in Clark, Philippines: live on campus, with meals, a gym, a pool, and the city of Angeles around the academy.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -56,11 +57,12 @@ function Index() {
       <main>
         <Hero />
         <Stats />
-        <DailyRhythm />
+        <Place />
         <About />
         <PhotoBreak />
-        <Programs />
         <Why />
+        <DailyRhythm />
+        <Programs />
         <How />
         <Pricing />
         <Testimonials />

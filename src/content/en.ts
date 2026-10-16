@@ -5,9 +5,9 @@
 
 export const en = {
   meta: {
-    title: "Thimar Educational | A one-month English immersion program",
+    title: "Thimar Educational | Study English in the Philippines",
     description:
-      "Thimar Educational is a full-immersion English program with daily one-to-one and group classes, accommodation, meals and complete student care.",
+      "Thimar Educational is a full-immersion English program in Clark, Philippines. Live on campus beside Angeles City, with meals, a gym, a pool, and daily classes.",
   },
   brand: {
     name: "Thimar Educational",
@@ -25,8 +25,8 @@ export const en = {
     book: "Book a Call",
   },
   hero: {
-    badge: "Enrolment open year-round",
-    titleStart: "One month that",
+    badge: "Clark, Philippines · Year-round enrolment",
+    titleStart: "Study in the Philippines",
     /*
      * The headline cycles through these. Each one has to finish the
      * sentence that `titleStart` begins, in this language's grammar — they
@@ -34,29 +34,61 @@ export const en = {
      * one: it is what crawlers and screen readers get, so keep it in step
      * with `meta.title`.
      */
-    titleRotating: ["transforms your English", "builds real confidence", "gets you speaking daily"],
+    titleRotating: ["and live in Clark", "on a real campus", "with the city around you"],
     subtitle:
-      "A one-month full-immersion program: six classes a day, qualified teachers, full accommodation and complete student care — so the only thing you focus on is progress.",
+      "A full-immersion stay in Clark, on the edge of Angeles City. Students live inside the academy, with three meals a day, a gym, a swimming pool, and the parks, cafés and open fields of Clark just outside — then six classes built into the day.",
     primaryCta: "Register Now",
-    secondaryCta: "Learn More",
+    secondaryCta: "Life in Clark",
     scroll: "Scroll to explore",
-    floatA: "6 classes a day",
+    floatA: "Clark, Philippines",
     floatB: "Full immersion",
   },
   stats: [
-    { value: 6, suffix: "", label: "Classes every day" },
-    { value: 4, suffix: "", label: "One-to-one sessions" },
-    { value: 2, suffix: "", label: "Group sessions" },
-    { value: 1, suffix: "", label: "Full-immersion month" },
+    { value: 0, suffix: "", text: "Clark", label: "Philippines" },
+    { value: 3, suffix: "", text: "", label: "Meals every day" },
+    { value: 6, suffix: "", text: "", label: "Classes every day" },
+    { value: 0, suffix: "", text: "Gym", label: "And a swimming pool" },
   ],
   statement: {
-    lines: ["Live inside the academy.", "Six classes every day.", "English in every moment."],
+    lines: ["Clark, Philippines.", "A campus you live in.", "A city you step into."],
+  },
+  place: {
+    eyebrow: "Clark, Philippines",
+    title: "A full stay, not only a classroom",
+    subtitle:
+      "The program takes place in Clark, Philippines, a few minutes from Angeles City. Between classes, students train on campus and step out into the parks, cafés, restaurants and viewpoints that make Clark and Angeles a place to live, not only a place to study.",
+    items: [
+      {
+        title: "Gym, pool, and sport",
+        body: "The gym and swimming pool are included. Basketball courts and open ground sit beside the academy, so training is part of the week.",
+      },
+      {
+        title: "Cafés in Clark",
+        body: "Clark has a real coffee scene: glass cafés under the trees, and a quiet table after class.",
+      },
+      {
+        title: "Clark Parade Grounds",
+        body: "A wide green park in the middle of Clark, shaded by old acacia trees, with historic aircraft still standing on the grass.",
+      },
+      {
+        title: "Fields and parks",
+        body: "Football on the big lawns, paths for a walk, and room to breathe. Clark is built around open ground.",
+      },
+      {
+        title: "Gardens and quiet corners",
+        body: "Stone paths, palms, and shaded tables. Even a rainy afternoon in Clark stays green.",
+      },
+      {
+        title: "Hills around Angeles",
+        body: "A short ride from the academy, the viewpoints look over green hills and the lights of Angeles City at dusk.",
+      },
+    ],
   },
   rhythm: {
-    eyebrow: "A day at Thimar",
-    title: "Six classes. Every single day.",
+    eyebrow: "The study day",
+    title: "Classes, once the day has a shape",
     subtitle:
-      "Four private sessions built around your level, plus two group sessions for real conversation — spread across the day so English never stops.",
+      "After the campus and the city, the study plan is simple: four private sessions built around your level, plus two group sessions for real conversation.",
     centerLabel: "classes a day",
     oneToOne: "One-to-one",
     group: "Group",
@@ -64,27 +96,28 @@ export const en = {
   },
   about: {
     eyebrow: "About the program",
-    title: "A one-month program built around real English progress",
-    body: "Thimar Educational is a full-immersion English program. In one month students live inside the academy, follow a packed daily schedule and are supported by qualified teachers and a dedicated coordination team. Everything — classes, meals, housing and daily life — is designed so students use English in real situations from the first day.",
+    title: "English immersion in Clark, Philippines",
+    body: "Thimar Educational runs a full-immersion English program in Clark, Philippines, beside Angeles City. Students live inside the academy. Meals, housing, a gym, a pool, and a coordination team are on site, and the parks, cafés and streets of Clark are part of the stay. Classes give the day its structure. The place gives the English somewhere real to live.",
     mission: {
       title: "Our mission",
-      body: "To give every student the daily practice, structure and confidence that make real English fluency possible in a short time.",
+      body: "To give every student a complete stay — daily practice, a safe campus, and a city worth being in — so fluency is built in real situations, not only in a classroom.",
     },
     vision: {
       title: "Our vision",
-      body: "To be the most trusted immersion program for families who want measurable language progress, not just another course.",
+      body: "To be the most trusted immersion program for families who want measurable progress and a well-run life in Clark, not just another course.",
     },
     features: [
-      "Six classes a day combining one-to-one and group teaching",
-      "Full accommodation inside the academy with daily meals",
-      "IELTS and advanced tracks available on request",
-      "Student care team on-site around the clock",
+      "The program is in Clark, Philippines, near Angeles City",
+      "Accommodation inside the academy, with three meals a day",
+      "Gym and swimming pool on campus, with parks and cafés nearby",
+      "Six classes a day, and an IELTS track available on request",
     ],
   },
   programs: {
-    eyebrow: "What the program includes",
-    title: "A full daily schedule, carefully structured",
-    subtitle: "Six classes a day, balanced between focused one-to-one work and group practice.",
+    eyebrow: "The classes",
+    title: "A clear study plan, inside a full stay",
+    subtitle:
+      "Six classes a day sit inside the wider program: focused one-to-one work, group practice, and longer stays when you want them.",
     learnMore: "Learn more",
     items: [
       {
@@ -99,7 +132,7 @@ export const en = {
         icon: "users",
         title: "2 Group Classes",
         description:
-          "Two daily group sessions for conversation, listening and real interaction with other students — exactly how fluency is built.",
+          "Two daily group sessions for conversation, listening and real interaction with other students.",
         age: "All levels",
         duration: "2 sessions / day",
       },
@@ -113,47 +146,47 @@ export const en = {
       },
       {
         icon: "globe",
-        title: "Year-Round Enrolment",
+        title: "1, 3, or 6 months",
         description:
-          "Classes run throughout the year — start the month that fits your schedule, and get a special discount when enrolling for more than one month.",
+          "Start any month of the year. The three-month and six-month packages keep the same services at a lower monthly rate.",
         age: "Open enrolment",
-        duration: "From 1 month",
+        duration: "Clark, Philippines",
       },
     ],
   },
   why: {
     eyebrow: "What's included",
-    title: "Everything taken care of, in one price",
+    title: "Campus life in Clark, in one price",
     items: [
       {
         icon: "heart",
         title: "3 meals a day",
-        body: "Three daily meals prepared on-site so students stay focused on learning.",
+        body: "Three daily meals prepared on campus, so students stay fed and focused.",
       },
       {
         icon: "shield",
         title: "Airport pickup",
-        body: "A member of our team meets you at the airport and brings you straight to the academy.",
+        body: "A member of our team meets you at Clark International Airport and brings you to the academy.",
       },
       {
         icon: "users",
         title: "Gym and swimming pool",
-        body: "Full access to the on-site gym and swimming pool is included with the program.",
+        body: "Full access to the on-campus gym and swimming pool is included with every package.",
       },
       {
         icon: "clock",
         title: "Accommodation inside the academy",
-        body: "Students live inside the academy, close to classes and under constant supervision.",
+        body: "Students live inside the academy in Clark, close to classes and looked after on site.",
       },
       {
         icon: "chart",
         title: "All bills included",
-        body: "Electricity, Wi-Fi internet and laundry service are all covered — no hidden extras.",
+        body: "Electricity, Wi-Fi and laundry are covered — no hidden extras on top of the package.",
       },
       {
         icon: "message",
         title: "Local SIM card",
-        body: "A local SIM card is provided on arrival so you can stay in touch with family throughout your stay.",
+        body: "A Philippine SIM card is provided on arrival so you can stay in touch with family.",
       },
     ],
   },
@@ -161,61 +194,82 @@ export const en = {
     eyebrow: "How it works",
     title: "Four simple steps to get started",
     steps: [
-      { title: "Inquiry", body: "Send us a message with your current English level and goals." },
+      { title: "Inquiry", body: "Send us a message with your current English level, goals, and preferred package." },
       { title: "Consultation", body: "A free call to confirm the right start date and track." },
       {
         title: "Registration",
-        body: "Confirm your month, settle the fees and get your travel plan.",
+        body: "Confirm your package — one, three, or six months — settle the fees, and get your travel plan.",
       },
       {
-        title: "Arrival",
-        body: "We meet you at the airport and your first day of classes begins.",
+        title: "Arrival in Clark",
+        body: "We meet you at Clark International Airport, and your stay in the Philippines begins.",
       },
     ],
   },
   pricing: {
     eyebrow: "Pricing",
-    title: "One all-inclusive monthly price",
+    title: "Three packages. One stay in Clark.",
     subtitle:
-      "Tuition, accommodation, meals, airport pickup, utilities, Wi-Fi, laundry and a local SIM — all included. A special discount applies for enrolments longer than one month.",
+      "Tuition, accommodation, meals, airport pickup, gym, pool, utilities, Wi-Fi, laundry and a local SIM are included in every package. Longer stays keep the same services at a lower monthly rate.",
     popular: "Best value",
     cta: "Register",
     perMonth: "SAR / month",
+    totalLabel: "Total",
+    includedNote:
+      "Savings are calculated against the one-month rate of 8,500 SAR, with the same services and class schedule on every package.",
     plans: [
       {
         name: "1 Month",
         price: "8,500",
-        description: "The standard full-immersion program. Previously 9,500 SAR.",
+        total: "8,500 SAR",
+        savings: "",
+        highlight: false,
+        description: "The standard full-immersion month in Clark, Philippines.",
         features: [
           "6 classes a day (4 private + 2 group)",
           "Accommodation inside the academy",
-          "3 daily meals",
+          "3 meals daily",
           "Airport pickup",
-          "Gym, pool, Wi-Fi, utilities, laundry and SIM included",
+          "Gym and swimming pool access",
+          "Wi-Fi, electricity, and utilities",
+          "Laundry service",
+          "SIM card",
         ],
       },
       {
-        name: "2 Months",
+        name: "3 Months",
         price: "8,000",
-        description: "Longer stay, better monthly rate — ideal for solid fluency gains.",
+        total: "24,000 SAR",
+        savings: "Save 1,500 SAR",
+        highlight: false,
+        description: "500 SAR less each month than the one-month rate.",
         features: [
-          "Everything in the 1-month plan",
-          "Discounted monthly rate",
-          "Continuous level-based progression",
-          "Priority scheduling for one-to-one slots",
-          "Mid-term progress review with a teacher",
+          "6 classes a day (4 private + 2 group)",
+          "Accommodation inside the academy",
+          "3 meals daily",
+          "Airport pickup",
+          "Gym and swimming pool access",
+          "Wi-Fi, electricity, and utilities",
+          "Laundry service",
+          "SIM card",
         ],
       },
       {
-        name: "3+ Months",
+        name: "6 Months",
         price: "7,500",
-        description: "Our best monthly rate for serious long-term learners.",
+        total: "45,000 SAR",
+        savings: "Save 6,000 SAR",
+        highlight: true,
+        description: "1,000 SAR less each month than the one-month rate.",
         features: [
-          "Everything in the 2-month plan",
-          "Lowest per-month price",
-          "Personalised long-term study plan",
-          "Option to add the IELTS track for an extra fee",
-          "Flexible start date, year-round",
+          "6 classes a day (4 private + 2 group)",
+          "Accommodation inside the academy",
+          "3 meals daily",
+          "Airport pickup",
+          "Gym and swimming pool access",
+          "Wi-Fi, electricity, and utilities",
+          "Laundry service",
+          "SIM card",
         ],
       },
     ],
@@ -228,39 +282,44 @@ export const en = {
     items: [
       {
         quote:
-          "After one month at Thimar I was speaking with real confidence. The daily one-to-one sessions made the difference.",
+          "The month in Clark was more than classes. I lived on campus, ate with the group, and was speaking with real confidence by the end.",
         name: "Former student",
-        role: "1-month program",
+        role: "1-month package",
       },
       {
         quote:
-          "Everything was taken care of from the moment we landed — pickup, meals, accommodation. We only had to focus on learning.",
+          "Everything was taken care of from the airport in Clark — pickup, meals, accommodation. We only had to focus on the stay.",
         name: "Parent",
         role: "Family of a Thimar student",
       },
       {
         quote:
-          "I stayed for two months and the discount made it very reasonable. My IELTS score improved far more than I expected.",
+          "I stayed for six months. The lower monthly rate made a long stay realistic, and my IELTS score moved further than I expected.",
         name: "Former student",
-        role: "IELTS track",
+        role: "6-month package, IELTS track",
       },
     ],
   },
   gallery: {
     eyebrow: "Gallery",
-    title: "Life at Thimar",
-    subtitle: "A look inside the academy, our classes and daily life.",
+    title: "Life in Clark",
+    subtitle: "The academy, the students, and the city around the program. Real photos from Clark and Angeles.",
     close: "Close",
     prev: "Previous",
     next: "Next",
     captions: [
-      "Arriving at the main academy building",
-      "Swimming pool and student residence",
-      "Courtyard, gazebos and pool",
-      "Palm-lined pool area",
-      "Academy grounds and entrance",
-      "Group conversation class",
-      "Learning together in small groups",
+      "Graduation day",
+      "Coffee at Clark Parade Grounds",
+      "A viewpoint above the hills",
+      "Inside the academy",
+      "A graduation medal",
+      "Basketball beside the academy",
+      "Football on the fields in Clark",
+      "A café in Clark",
+      "A garden patio in Clark",
+      "A day out in Angeles City",
+      "Students together at the academy",
+      "An evening in the city",
     ],
   },
   faq: {
@@ -269,45 +328,53 @@ export const en = {
     cta: "Still have a question? Talk to us",
     items: [
       {
+        q: "Where does the program take place?",
+        a: "In Clark, Philippines, beside Angeles City. Students live inside the academy and spend the rest of the stay in and around Clark.",
+      },
+      {
         q: "How long is the Thimar program?",
-        a: "The core program is one month of full immersion. You can extend to two or three months (or longer) and get a discounted monthly rate.",
+        a: "Choose a one-month, three-month, or six-month package. The longer packages keep the same services at a lower monthly rate.",
       },
       {
         q: "How many classes are there each day?",
-        a: "Six classes a day: four one-to-one sessions tailored to your level and goals, plus two group sessions focused on conversation and real interaction.",
+        a: "Six classes a day: four one-to-one sessions tailored to your level and goals, plus two group sessions focused on conversation.",
       },
       {
         q: "What is included in the price?",
-        a: "Classes, accommodation inside the academy, three daily meals, airport pickup, gym and swimming pool access, electricity, Wi-Fi, laundry service and a local SIM card are all included.",
+        a: "Classes, accommodation inside the academy, three daily meals, airport pickup, gym and swimming pool access, electricity, Wi-Fi, laundry, and a local SIM card.",
+      },
+      {
+        q: "What is there to do outside class?",
+        a: "The campus has a gym and a pool. Around it, Clark offers Parade Grounds, wide parks and football fields, specialty cafés, and viewpoints in the hills near Angeles City. Angeles is also known for its restaurants.",
       },
       {
         q: "Do you offer IELTS preparation?",
-        a: "Yes. We offer a dedicated IELTS track with exam-focused teaching for an additional fee, which you can add on top of the standard program.",
+        a: "Yes. A dedicated IELTS track is available at an additional fee, on top of any package.",
       },
       {
-        q: "When can I start? Are classes available all year?",
-        a: "Yes, classes run throughout the year. You choose the start date that fits your schedule and we build the program around it.",
+        q: "When can I start?",
+        a: "Enrolment is open year-round. You choose the start date that fits, and we build the stay around it.",
       },
       {
         q: "How much does the program cost?",
-        a: "The current price is 8,500 SAR per month (previously 9,500 SAR). A special discount applies when you enrol for more than one month.",
+        a: "One month is 8,500 SAR (8,500 SAR total). Three months are 8,000 SAR per month (24,000 SAR total), saving 1,500 SAR. Six months are 7,500 SAR per month (45,000 SAR total), saving 6,000 SAR. Savings are against the one-month rate.",
       },
       {
         q: "How do I register?",
-        a: "Send us a message on WhatsApp or submit the contact form below. We will reply with the next available dates and the full registration details.",
+        a: "Send us a message on WhatsApp or use the form below. Choose a one-month, three-month, or six-month package, IELTS preparation, or a general inquiry.",
       },
     ],
   },
   cta: {
     eyebrow: "Enrol now",
-    title: "Ready to start your English month?",
-    subtitle: "Message us today and we will reserve your place and plan your arrival.",
+    title: "Ready to study in the Philippines?",
+    subtitle: "Message us today and we will reserve your place in Clark and plan your arrival.",
     primary: "Chat on WhatsApp",
     secondary: "Book a Call",
   },
   contact: {
     eyebrow: "Contact",
-    title: "Let's plan your month at Thimar",
+    title: "Plan your stay in Clark",
     subtitle: "Fill in the form and we will reply on WhatsApp, usually within a few hours.",
     form: {
       name: "Full name",
@@ -318,6 +385,13 @@ export const en = {
       emailPlaceholder: "you@example.com",
       program: "Program of interest",
       programPlaceholder: "Choose a program",
+      options: [
+        "1-month package",
+        "3-month package",
+        "6-month package",
+        "IELTS preparation",
+        "General inquiry",
+      ],
       message: "Message",
       messagePlaceholder: "Tell us your current level, start date and goals",
       submit: "Send on WhatsApp",
@@ -335,14 +409,14 @@ export const en = {
       email: "Email",
       phone: "Phone",
       address: "Address",
-      addressValue: "Thimar Academy campus",
+      addressValue: "Clark, Philippines",
       hours: "Enrolment hours",
       hoursValue: "Sat - Thu, 9:00 - 21:00",
     },
   },
   footer: {
     about:
-      "Thimar Educational is a one-month full-immersion English program with classes, accommodation, meals and complete student care, all in one place.",
+      "Thimar Educational is a full-immersion English program in Clark, Philippines, with campus accommodation, meals, a gym, a pool, and daily classes.",
     quickLinks: "Quick links",
     contact: "Contact",
     rights: "All rights reserved.",
