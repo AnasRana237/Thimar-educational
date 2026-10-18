@@ -413,6 +413,7 @@ export const en = {
       submit: "Send on WhatsApp",
       sending: "Sending...",
       success: "Thank you! Opening WhatsApp with your details.",
+      failure: "We could not email your details — please continue on WhatsApp or call us.",
       errors: {
         name: "Please enter your full name.",
         phone: "Please enter a valid phone number.",

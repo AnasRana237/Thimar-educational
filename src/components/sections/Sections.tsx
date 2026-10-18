@@ -48,6 +48,7 @@ import {
 import { DynamicIcon, TikTok } from "@/components/icons";
 import { EASE_OUT, SPRING_SNAP, STAGGER, VIEWPORT } from "@/lib/motion";
 import { site, whatsappLink } from "@/content/site";
+import { sendLead } from "@/lib/send-lead";
 import { cn } from "@/lib/utils";
 import campusEntranceTour from "@/assets/campus-entrance-tour.mp4";
 import campusCourtyardPool from "@/assets/campus-courtyard-pool.mp4";
@@ -1298,12 +1299,12 @@ export function CtaBand() {
 }
 
 export function Contact() {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
   const f = t.contact.form;
   const [errors, setErrors] = useState<
     Partial<Record<"name" | "phone" | "email" | "message", string>>
   >({});
-  const [ok, setOk] = useState(false);
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "failed">("idle");
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -1317,8 +1318,18 @@ export function Contact() {
     setErrors(errs);
     if (Object.keys(errs).length) return;
     const text = `${f.name}: ${v("name")}\n${f.phone}: ${v("phone")}\n${v("email") ? `${f.email}: ${v("email")}\n` : ""}${f.program}: ${v("program")}\n${f.message}: ${v("message")}`;
-    setOk(true);
+    setStatus("sending");
+    // Opened before awaiting the email so the browser still treats it as a
+    // direct result of the click and does not block the tab.
     window.open(whatsappLink(text), "_blank", "noopener,noreferrer");
+    void sendLead({
+      name: v("name"),
+      phone: v("phone"),
+      email: v("email"),
+      program: v("program"),
+      message: v("message"),
+      lang,
+    }).then((result) => setStatus(result === "failed" ? "failed" : "sent"));
   };
 
   const input =
@@ -1426,19 +1437,23 @@ export function Contact() {
             <div className="sm:col-span-2">
               <button
                 type="submit"
-                className="sheen inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gold px-7 py-3.5 text-sm font-semibold text-gold-foreground shadow-[var(--shadow-gold)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-gold-soft hover:shadow-[var(--shadow-lift)] active:scale-[0.98]"
+                disabled={status === "sending"}
+                className="sheen inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gold px-7 py-3.5 text-sm font-semibold text-gold-foreground shadow-[var(--shadow-gold)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-gold-soft hover:shadow-[var(--shadow-lift)] active:scale-[0.98] disabled:pointer-events-none disabled:opacity-70"
               >
                 <MessageCircle className="size-4" aria-hidden="true" />
-                {f.submit}
+                {status === "sending" ? f.sending : f.submit}
               </button>
-              {ok && (
+              {status !== "idle" && status !== "sending" && (
                 <motion.p
                   initial={{ opacity: 0, y: 6 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3, ease: EASE_OUT }}
-                  className="mt-3 text-center text-sm font-medium text-primary"
+                  className={cn(
+                    "mt-3 text-center text-sm font-medium",
+                    status === "failed" ? "text-destructive" : "text-primary",
+                  )}
                 >
-                  {f.success}
+                  {status === "failed" ? f.failure : f.success}
                 </motion.p>
               )}
             </div>
