@@ -14,7 +14,7 @@ export type LeadResult = "sent" | "skipped" | "failed";
 
 /**
  * Forwards a contact-form submission to FormSubmit, which emails it on to
- * `site.formTarget`, so an enquiry arrives even if the
+ * `site.formTarget` and copies `site.formCc`, so an enquiry arrives even if the
  * visitor never presses send in WhatsApp. The site is static and holds no mail
  * credentials; the target is either the alias string FormSubmit issues or the
  * address itself, and neither can be used to read mail.
@@ -40,6 +40,8 @@ export async function sendLead(lead: Lead): Promise<LeadResult> {
         body: JSON.stringify({
           _subject: `New enquiry: ${lead.name} — ${lead.program}`,
           _template: "box",
+          // FormSubmit has no BCC field, so the copy is a visible CC.
+          ...(site.formCc ? { _cc: site.formCc } : {}),
           "👤 Name": lead.name,
           "🎓 Program": lead.program,
           "📱 Phone": lead.phone,

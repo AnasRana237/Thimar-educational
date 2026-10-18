@@ -410,9 +410,9 @@ export const en = {
       ],
       message: "Message",
       messagePlaceholder: "Tell us your current level, start date and goals",
-      submit: "Send on WhatsApp",
+      submit: "Submit request",
       sending: "Sending...",
-      success: "Thank you! Opening WhatsApp with your details.",
+      success: "Thank you! We have your details — opening WhatsApp now.",
       failure: "We could not email your details — please continue on WhatsApp or call us.",
       errors: {
         name: "Please enter your full name.",

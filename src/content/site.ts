@@ -10,7 +10,11 @@ export const site = {
   // FormSubmit target — contact-form submissions are emailed here. Replace this
   // with the random alias string FormSubmit sends once the address is confirmed,
   // so the inbox is no longer in the published bundle. See DEPLOY.md step 6.
-  formTarget: "anasrana.abr@gmail.com",
+  formTarget: "gmail@thimarph.com",
+  // Copied on every submission. FormSubmit offers no BCC, so this address is a
+  // visible CC on the email and is readable in the published files; a forwarding
+  // rule on the Thimar mailbox keeps it private instead. See DEPLOY.md step 6.
+  formCc: "anasrana.abr@gmail.com",
   social: {
     instagram: "https://instagram.com/", // [INSTAGRAM URL]
     twitter: "https://x.com/", // [X / TWITTER URL]
