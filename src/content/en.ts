@@ -208,16 +208,35 @@ export const en = {
   },
   pricing: {
     eyebrow: "Pricing",
-    title: "Three packages. One stay in Clark.",
+    title: "Four packages. One stay in Clark.",
     subtitle:
       "Tuition, accommodation, meals, airport pickup, gym, pool, utilities, Wi-Fi, laundry and a local SIM are included in every package. Longer stays keep the same services at a lower monthly rate.",
     popular: "Best value",
     cta: "Register",
     perMonth: "SAR / month",
+    fromPrice: "8,500",
     totalLabel: "Total",
     includedNote:
-      "Savings are calculated against the one-month rate of 8,500 SAR, with the same services and class schedule on every package.",
+      "Savings are calculated against the one-month rate of 8,500 SAR. Every package includes the same services; the IELTS package runs all six daily classes one-to-one.",
     plans: [
+      {
+        name: "1 Month IELTS",
+        price: "9,000",
+        total: "9,000 SAR",
+        savings: "",
+        highlight: false,
+        description: "The standard full-immersion month in Clark, Philippines.",
+        features: [
+          "6 classes a day (6 private)",
+          "Accommodation inside the academy",
+          "3 meals daily",
+          "Airport pickup",
+          "Gym and swimming pool access",
+          "Wi-Fi, electricity, and utilities",
+          "Laundry service",
+          "SIM card",
+        ],
+      },
       {
         name: "1 Month",
         price: "8,500",
@@ -346,7 +365,7 @@ export const en = {
       },
       {
         q: "Do you offer IELTS preparation?",
-        a: "Yes. A dedicated IELTS track is available at an additional fee, on top of any package.",
+        a: "Yes. There is a dedicated one-month IELTS package at 9,000 SAR, with all six daily classes delivered one-to-one.",
       },
       {
         q: "When can I start?",
@@ -354,11 +373,11 @@ export const en = {
       },
       {
         q: "How much does the program cost?",
-        a: "One month is 8,500 SAR (8,500 SAR total). Three months are 8,000 SAR per month (24,000 SAR total), saving 1,500 SAR. Six months are 7,500 SAR per month (45,000 SAR total), saving 6,000 SAR. Savings are against the one-month rate.",
+        a: "One month is 8,500 SAR, and the one-month IELTS package is 9,000 SAR. Three months are 8,000 SAR per month (24,000 SAR total), saving 1,500 SAR. Six months are 7,500 SAR per month (45,000 SAR total), saving 6,000 SAR. Savings are against the one-month rate.",
       },
       {
         q: "How do I register?",
-        a: "Send us a message on WhatsApp or use the form below. Choose a one-month, three-month, or six-month package, IELTS preparation, or a general inquiry.",
+        a: "Send us a message on WhatsApp or use the form below. Choose a one-month, one-month IELTS, three-month, or six-month package, or send a general inquiry.",
       },
     ],
   },
@@ -384,9 +403,9 @@ export const en = {
       programPlaceholder: "Choose a program",
       options: [
         "1-month package",
+        "1-month IELTS package",
         "3-month package",
         "6-month package",
-        "IELTS preparation",
         "General inquiry",
       ],
       message: "Message",

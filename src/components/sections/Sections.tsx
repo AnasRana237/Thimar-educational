@@ -54,6 +54,10 @@ import campusCourtyardPool from "@/assets/campus-courtyard-pool.mp4";
 import campusPoolBuilding from "@/assets/campus-pool-building.jpg";
 import campusPoolPalms from "@/assets/campus-pool-palms.jpg";
 import campusGrounds from "@/assets/campus-grounds.jpg";
+import includedMeals from "@/assets/included-meals.jpg";
+import includedAirport from "@/assets/included-airport.jpg";
+import includedAccommodation from "@/assets/included-accommodation.jpg";
+import includedSim from "@/assets/included-sim.jpg";
 import logo from "@/assets/thimar-logo.png";
 
 /*
@@ -202,7 +206,7 @@ export function About() {
               aria-hidden="true"
             />
             <ImageReveal
-              src="/image1.jpeg"
+              src="/image5.jpeg"
               alt={t.about.title}
               className="aspect-4/5 w-full rounded-4xl shadow-[var(--shadow-lift)]"
               imgClassName="object-[center_35%]"
@@ -443,12 +447,12 @@ const WHY_SPAN = ["lg:col-span-2", "", "", "", "", "lg:col-span-2"];
 
 /* One photo per included item, in the same order as the content files. */
 const WHY_IMAGES: { src: string; position?: string }[] = [
-  { src: "/image1.jpeg", position: "object-center" },
-  { src: "/image13.jpeg", position: "object-center" },
-  { src: "/image9.jpeg", position: "object-center" },
-  { src: "/image10.jpeg", position: "object-[28%_center]" },
-  { src: "/image12.jpeg" },
-  { src: "/image7.jpeg", position: "object-center" },
+  { src: includedMeals, position: "object-[center_70%]" },
+  { src: includedAirport, position: "object-[70%_center]" },
+  { src: campusPoolPalms, position: "object-[center_75%]" },
+  { src: includedAccommodation, position: "object-[75%_center]" },
+  { src: campusGrounds },
+  { src: includedSim, position: "object-[70%_center]" },
 ];
 
 /* Every state change in a tile runs on the same curve and duration. */
@@ -602,7 +606,7 @@ export function Why() {
               </span>
               <p className="mt-3 flex items-baseline gap-2">
                 <span className="font-display text-4xl font-bold text-cream sm:text-5xl">
-                  {t.pricing.plans[0]?.price}
+                  {t.pricing.fromPrice}
                 </span>
                 <span className="text-sm text-cream/60">{t.pricing.perMonth}</span>
               </p>
@@ -712,7 +716,7 @@ export function Pricing() {
         subtitle={t.pricing.subtitle}
         size="xl"
       />
-      <div className="mt-14 grid items-stretch gap-5 lg:grid-cols-3">
+      <div className="mt-14 grid items-stretch gap-5 sm:grid-cols-2 xl:grid-cols-4">
         {t.pricing.plans.map((p, i) => {
           const pop = p.highlight;
           return (
@@ -721,7 +725,7 @@ export function Pricing() {
                 className={cn(
                   "h-full rounded-3xl transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1.5",
                   // The travelling gold ring is used exactly once on the page.
-                  pop && "conic-ring shadow-[var(--shadow-lift)] lg:-my-4",
+                  pop && "conic-ring shadow-[var(--shadow-lift)]",
                 )}
                 radius={360}
                 strength={pop ? 16 : 12}
@@ -729,9 +733,9 @@ export function Pricing() {
               >
                 <div
                   className={cn(
-                    "relative flex h-full flex-col rounded-3xl p-8",
+                    "relative flex h-full flex-col rounded-3xl p-8 xl:p-7",
                     pop
-                      ? "bg-gradient-navy text-primary-foreground lg:py-12"
+                      ? "bg-gradient-navy text-primary-foreground"
                       : "border border-border bg-card shadow-[var(--shadow-xs)]",
                   )}
                 >
@@ -757,7 +761,7 @@ export function Pricing() {
                       pop ? "border-primary-foreground/15" : "border-border",
                     )}
                   >
-                    <div className="flex flex-wrap items-center gap-x-2 gap-y-2">
+                    <div className="flex flex-wrap items-baseline gap-x-2">
                       <span
                         className={cn(
                           "font-display text-4xl font-bold",
@@ -774,13 +778,13 @@ export function Pricing() {
                       >
                         {t.pricing.perMonth}
                       </span>
+                    </div>
+                    <div className="mt-2 flex h-6 items-center">
                       {p.savings ? (
                         <span
                           className={cn(
                             "inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-semibold",
-                            pop
-                              ? "bg-gold text-gold-foreground"
-                              : "bg-gold/15 text-gold-ink",
+                            pop ? "bg-gold text-gold-foreground" : "bg-gold/15 text-gold-ink",
                           )}
                         >
                           <BadgePercent className="size-3.5 shrink-0" aria-hidden="true" />
@@ -820,7 +824,7 @@ export function Pricing() {
                       </Reveal>
                     ))}
                   </ul>
-                  <GoldButton href="#contact" className="sheen mt-8 w-full">
+                  <GoldButton href="#contact" className="sheen mt-8 w-full shrink-0">
                     {t.pricing.cta}
                   </GoldButton>
                 </div>

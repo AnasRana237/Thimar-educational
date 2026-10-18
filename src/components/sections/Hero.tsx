@@ -128,7 +128,7 @@ export function Hero() {
         aria-hidden="true"
       >
         <div className="overflow-hidden rounded-2xl border border-gold/25 shadow-[var(--shadow-lift)]">
-          <img src="/image13.jpeg" alt="" className="photo-mono h-56 w-full object-cover opacity-80" />
+          <img src="/image15.jpeg" alt="" className="h-56 w-full object-cover" />
         </div>
       </motion.div>
 
@@ -141,7 +141,7 @@ export function Hero() {
         aria-hidden="true"
       >
         <div className="overflow-hidden rounded-2xl border border-gold/25 shadow-[var(--shadow-lift)]">
-          <img src="/image6.jpeg" alt="" className="photo-mono h-48 w-full object-cover opacity-80" />
+          <img src="/image3.jpeg" alt="" className="h-48 w-full object-cover" />
         </div>
       </motion.div>
 
