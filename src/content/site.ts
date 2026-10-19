@@ -5,7 +5,7 @@
 export const site = {
   whatsappNumber: "966544555117", // digits only, international format
   whatsappDisplay: "+966 54 455 5117",
-  email: "anasrana.abr@gmail.com",
+  email: "gmail@thimarph.com",
   phoneDisplay: "+966 54 455 5117",
   // FormSubmit target — contact-form submissions are emailed here. Replace this
   // with the random alias string FormSubmit sends once the address is confirmed,
