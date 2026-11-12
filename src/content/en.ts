@@ -414,7 +414,8 @@ export const en = {
       whatsappBtn: "Send on WhatsApp",
       or: "or",
       sending: "Sending...",
-      success: "Thank you! We have your details — we'll be in touch soon.",
+      success: "Thank you! Your request has been submitted — we'll be in touch soon.",
+      whatsappOpening: "Opening WhatsApp — your details are ready to send.",
       failure: "We could not email your details — please continue on WhatsApp or call us.",
       errors: {
         name: "Please enter your full name.",

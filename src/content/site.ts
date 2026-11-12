@@ -3,10 +3,10 @@
 // ============================================================
 
 export const site = {
-  whatsappNumber: "966544555117", // digits only, international format
-  whatsappDisplay: "+966 54 455 5117",
+  whatsappNumber: "966542987885", // digits only, international format
+  whatsappDisplay: "+966 54 298 7885",
   email: "gmail@thimarph.com",
-  phoneDisplay: "+966 54 455 5117",
+  phoneDisplay: "+966 54 298 7885",
   // Web3Forms access key — contact-form submissions are relayed through
   // Web3Forms and delivered to the inbox this key is registered to
   // (gmail@thimarph.com). The key is a public submit-only token, safe to ship in

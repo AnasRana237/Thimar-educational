@@ -7,11 +7,13 @@ import {
   useTransform,
 } from "framer-motion";
 import {
+  AlertCircle,
   ArrowLeft,
   ArrowRight,
   ArrowUp,
   BadgePercent,
   Check,
+  CheckCircle2,
   ChevronDown,
   ChevronLeft,
   ChevronRight,
@@ -1305,7 +1307,9 @@ export function Contact() {
   const [errors, setErrors] = useState<
     Partial<Record<"name" | "phone" | "email" | "message", string>>
   >({});
-  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "failed">("idle");
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "failed" | "whatsapp">(
+    "idle",
+  );
   const formRef = useRef<HTMLFormElement>(null);
 
   // Validates the form and, when it passes, returns a reader for the field
@@ -1339,7 +1343,15 @@ export function Contact() {
       program: v("program"),
       message: v("message"),
       lang,
-    }).then((result) => setStatus(result === "failed" ? "failed" : "sent"));
+    }).then((result) => {
+      if (result === "failed") {
+        setStatus("failed");
+        return;
+      }
+      // Clear the fields so the visitor sees a clean form behind the thank-you.
+      setStatus("sent");
+      formRef.current?.reset();
+    });
   };
 
   // "Send on WhatsApp" — opens WhatsApp with the enquiry prefilled; no email.
@@ -1347,8 +1359,14 @@ export function Contact() {
     if (!formRef.current) return;
     const parsed = validate(formRef.current);
     if (!parsed) return;
+    setStatus("whatsapp");
     window.open(whatsappLink(parsed.text), "_blank", "noopener,noreferrer");
   };
+
+  // Clear a finished message once the visitor starts editing again, so stale
+  // feedback never lingers over a form they are refilling.
+  const onFormInput = () =>
+    setStatus((s) => (s === "sent" || s === "failed" || s === "whatsapp" ? "idle" : s));
 
   const input =
     "mt-2 w-full rounded-lg border border-input bg-background px-4 py-3 text-sm text-foreground transition-[border-color,box-shadow] duration-300 outline-none placeholder:text-muted-foreground/60 focus:border-primary/50 focus:ring-4 focus:ring-gold/20";
@@ -1394,6 +1412,7 @@ export function Contact() {
           <form
             ref={formRef}
             onSubmit={onSubmit}
+            onInput={onFormInput}
             noValidate
             className="grid gap-5 rounded-3xl border border-border bg-card p-6 shadow-[var(--shadow-soft)] sm:grid-cols-2 sm:p-9"
           >
@@ -1475,19 +1494,41 @@ export function Contact() {
                   {f.whatsappBtn}
                 </button>
               </div>
-              {status !== "idle" && status !== "sending" && (
-                <motion.p
-                  initial={{ opacity: 0, y: 6 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3, ease: EASE_OUT }}
-                  className={cn(
-                    "mt-3 text-center text-sm font-medium",
-                    status === "failed" ? "text-destructive" : "text-primary",
-                  )}
-                >
-                  {status === "failed" ? f.failure : f.success}
-                </motion.p>
-              )}
+              <AnimatePresence>
+                {status !== "idle" && status !== "sending" && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -4 }}
+                    transition={{ duration: 0.3, ease: EASE_OUT }}
+                    role="status"
+                    aria-live="polite"
+                    className={cn(
+                      "mt-4 flex items-start gap-3 rounded-xl border px-4 py-3 text-sm font-medium",
+                      status === "sent" && "border-emerald-600/25 bg-emerald-50 text-emerald-800",
+                      status === "whatsapp" && "border-[#25D366]/30 bg-[#25D366]/10 text-[#0f7a3d]",
+                      status === "failed" && "border-destructive/25 bg-destructive/10 text-destructive",
+                    )}
+                  >
+                    {status === "sent" && (
+                      <CheckCircle2 className="mt-px size-5 shrink-0" aria-hidden="true" />
+                    )}
+                    {status === "whatsapp" && (
+                      <MessageCircle className="mt-px size-5 shrink-0" aria-hidden="true" />
+                    )}
+                    {status === "failed" && (
+                      <AlertCircle className="mt-px size-5 shrink-0" aria-hidden="true" />
+                    )}
+                    <span>
+                      {status === "sent"
+                        ? f.success
+                        : status === "whatsapp"
+                          ? f.whatsappOpening
+                          : f.failure}
+                    </span>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           </form>
         </Reveal>
