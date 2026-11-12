@@ -13,55 +13,50 @@ export type Lead = {
 export type LeadResult = "sent" | "skipped" | "failed";
 
 /**
- * Forwards a contact-form submission to FormSubmit, which emails it on to
- * `site.formTarget` and copies `site.formCc`, so an enquiry arrives even if the
- * visitor never presses send in WhatsApp. The site is static and holds no mail
- * credentials; the target is either the alias string FormSubmit issues or the
- * address itself, and neither can be used to read mail.
+ * Forwards a contact-form submission to Web3Forms, which emails it to the inbox
+ * the access key is registered to (gmail@thimarph.com), so an enquiry arrives
+ * even if the visitor never presses send in WhatsApp. The site is static and
+ * holds no mail credentials; `web3formsKey` is a public submit-only token that
+ * cannot read mail or change the destination.
  *
- * The labelled keys below are what FormSubmit prints as the rows of the email,
- * in this order, so they carry the layout — its three templates are the only
- * styling available.
+ * The labelled keys below become the rows of the email, so they carry the
+ * layout. `_subject` and `replyto` are Web3Forms control fields; `botcheck` is
+ * the honeypot that silently drops bot submissions.
  *
- * Returns "skipped" when no target is configured, so the WhatsApp hand-off
- * keeps working on its own.
+ * Returns "skipped" when no key is configured, so the WhatsApp hand-off keeps
+ * working on its own.
  */
 export async function sendLead(lead: Lead): Promise<LeadResult> {
-  if (!site.formTarget) return "skipped";
+  if (!site.web3formsKey) return "skipped";
 
   try {
-    const response = await fetch(
-      // Not URL-encoded: the target is our own config value and FormSubmit's
-      // documented endpoint carries the address as-is.
-      `https://formsubmit.co/ajax/${site.formTarget}`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify({
-          _subject: `New enquiry: ${lead.name} — ${lead.program}`,
-          _template: "box",
-          // FormSubmit has no BCC field, so the copy is a visible CC.
-          ...(site.formCc ? { _cc: site.formCc } : {}),
-          "👤 Name": lead.name,
-          "🎓 Program": lead.program,
-          "📱 Phone": lead.phone,
-          // A lowercase "email" key would be read as the reply-to address and
-          // rejected when the visitor leaves the optional field blank, so the
-          // reply-to is passed separately below.
-          "✉️ Email": lead.email || "—",
-          "🌐 Language": lead.lang === "ar" ? "العربية · Arabic" : "English",
-          "💬 Message": lead.message,
-          ...(lead.email ? { _replyto: lead.email } : {}),
-        }),
-      },
-    );
+    const response = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({
+        access_key: site.web3formsKey,
+        _subject: `New enquiry: ${lead.name} — ${lead.program}`,
+        from_name: "Thimar Website",
+        // Honeypot: real visitors leave this empty; bots that fill it are dropped.
+        botcheck: "",
+        "👤 Name": lead.name,
+        "🎓 Program": lead.program,
+        "📱 Phone": lead.phone,
+        "✉️ Email": lead.email || "—",
+        "🌐 Language": lead.lang === "ar" ? "العربية · Arabic" : "English",
+        "💬 Message": lead.message,
+        // Lets the recipient reply straight to the visitor when they left an
+        // address; omitted when the optional field is blank.
+        ...(lead.email ? { replyto: lead.email } : {}),
+      }),
+    });
 
     if (!response.ok) return "failed";
 
-    // FormSubmit answers 200 with success "false" while the target address is
-    // still unconfirmed, so the body decides rather than the status.
+    // Web3Forms answers 200 with success:false on a rejected submission, so the
+    // body decides rather than the status.
     const body = (await response.json().catch(() => null)) as { success?: unknown } | null;
-    return body && String(body.success) === "false" ? "failed" : "sent";
+    return body && body.success === true ? "sent" : "failed";
   } catch {
     return "failed";
   }

@@ -7,14 +7,12 @@ export const site = {
   whatsappDisplay: "+966 54 455 5117",
   email: "gmail@thimarph.com",
   phoneDisplay: "+966 54 455 5117",
-  // FormSubmit target — contact-form submissions are emailed here. Replace this
-  // with the random alias string FormSubmit sends once the address is confirmed,
-  // so the inbox is no longer in the published bundle. See DEPLOY.md step 6.
-  formTarget: "gmail@thimarph.com",
-  // Copied on every submission. FormSubmit offers no BCC, so this address is a
-  // visible CC on the email and is readable in the published files; a forwarding
-  // rule on the Thimar mailbox keeps it private instead. See DEPLOY.md step 6.
-  formCc: "anasrana.abr@gmail.com",
+  // Web3Forms access key — contact-form submissions are relayed through
+  // Web3Forms and delivered to the inbox this key is registered to
+  // (gmail@thimarph.com). The key is a public submit-only token, safe to ship in
+  // the frontend bundle; it cannot read mail or change the destination address.
+  // To add a CC recipient, configure it in the Web3Forms dashboard for this form.
+  web3formsKey: "c6349a43-d293-49dc-8390-536117f5f0a2",
   social: {
     instagram: "https://instagram.com/", // [INSTAGRAM URL]
     twitter: "https://x.com/", // [X / TWITTER URL]
