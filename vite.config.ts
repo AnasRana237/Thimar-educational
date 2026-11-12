@@ -5,7 +5,19 @@ import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
-  plugins: [tanstackStart(), nitro(), react(), tailwindcss()],
+  plugins: [
+    tanstackStart({
+      // Static build for file-upload hosting (e.g. Hostinger): prerender the
+      // site to plain HTML in .output/public so no Node server is required.
+      prerender: {
+        enabled: true,
+        crawlLinks: true,
+      },
+    }),
+    nitro(),
+    react(),
+    tailwindcss(),
+  ],
   resolve: {
     tsconfigPaths: true,
   },
