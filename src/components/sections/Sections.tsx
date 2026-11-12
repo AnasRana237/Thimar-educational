@@ -1306,10 +1306,13 @@ export function Contact() {
     Partial<Record<"name" | "phone" | "email" | "message", string>>
   >({});
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "failed">("idle");
+  const formRef = useRef<HTMLFormElement>(null);
 
-  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const d = new FormData(e.currentTarget);
+  // Validates the form and, when it passes, returns a reader for the field
+  // values plus a WhatsApp-ready message. Returns null (and paints the errors)
+  // when anything is invalid, so both buttons share one source of truth.
+  const validate = (form: HTMLFormElement) => {
+    const d = new FormData(form);
     const v = (k: string) => String(d.get(k) ?? "").trim();
     const errs: Partial<Record<"name" | "phone" | "email" | "message", string>> = {};
     if (v("name").length < 2 || v("name").length > 100) errs.name = f.errors.name;
@@ -1317,15 +1320,18 @@ export function Contact() {
     if (v("email") && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v("email"))) errs.email = f.errors.email;
     if (v("message").length < 3 || v("message").length > 1000) errs.message = f.errors.message;
     setErrors(errs);
-    if (Object.keys(errs).length) return;
+    if (Object.keys(errs).length) return null;
     const text = `${f.name}: ${v("name")}\n${f.phone}: ${v("phone")}\n${v("email") ? `${f.email}: ${v("email")}\n` : ""}${f.program}: ${v("program")}\n${f.message}: ${v("message")}`;
+    return { v, text };
+  };
+
+  // "Submit request" — emails the enquiry via Web3Forms only.
+  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const parsed = validate(e.currentTarget);
+    if (!parsed) return;
+    const { v } = parsed;
     setStatus("sending");
-    // The enquiry is emailed first, then the visitor is handed to WhatsApp. A
-    // tab opened after that await would count as a popup and be blocked, so it
-    // is claimed here, while the click is still what the browser sees, and
-    // pointed at WhatsApp once the email is away.
-    const handoff = window.open("", "_blank");
-    if (handoff) handoff.opener = null;
     void sendLead({
       name: v("name"),
       phone: v("phone"),
@@ -1333,12 +1339,15 @@ export function Contact() {
       program: v("program"),
       message: v("message"),
       lang,
-    }).then((result) => {
-      setStatus(result === "failed" ? "failed" : "sent");
-      const url = whatsappLink(text);
-      if (handoff && !handoff.closed) handoff.location.replace(url);
-      else window.open(url, "_blank", "noopener,noreferrer");
-    });
+    }).then((result) => setStatus(result === "failed" ? "failed" : "sent"));
+  };
+
+  // "Send on WhatsApp" — opens WhatsApp with the enquiry prefilled; no email.
+  const onWhatsApp = () => {
+    if (!formRef.current) return;
+    const parsed = validate(formRef.current);
+    if (!parsed) return;
+    window.open(whatsappLink(parsed.text), "_blank", "noopener,noreferrer");
   };
 
   const input =
@@ -1383,6 +1392,7 @@ export function Contact() {
       <div className="mt-14 grid gap-6 lg:grid-cols-[1.35fr_1fr]">
         <Reveal>
           <form
+            ref={formRef}
             onSubmit={onSubmit}
             noValidate
             className="grid gap-5 rounded-3xl border border-border bg-card p-6 shadow-[var(--shadow-soft)] sm:grid-cols-2 sm:p-9"
@@ -1444,14 +1454,27 @@ export function Contact() {
               <Err k="message" />
             </label>
             <div className="sm:col-span-2">
-              <button
-                type="submit"
-                disabled={status === "sending"}
-                className="sheen inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gold px-7 py-3.5 text-sm font-semibold text-gold-foreground shadow-[var(--shadow-gold)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-gold-soft hover:shadow-[var(--shadow-lift)] active:scale-[0.98] disabled:pointer-events-none disabled:opacity-70"
-              >
-                <Send className="size-4" aria-hidden="true" />
-                {status === "sending" ? f.sending : f.submit}
-              </button>
+              <div className="flex flex-col items-stretch gap-3 sm:flex-row">
+                <button
+                  type="submit"
+                  disabled={status === "sending"}
+                  className="sheen inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-gold px-7 py-3.5 text-sm font-semibold text-gold-foreground shadow-[var(--shadow-gold)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-gold-soft hover:shadow-[var(--shadow-lift)] active:scale-[0.98] disabled:pointer-events-none disabled:opacity-70"
+                >
+                  <Send className="size-4" aria-hidden="true" />
+                  {status === "sending" ? f.sending : f.submit}
+                </button>
+                <span className="text-center text-xs font-medium text-muted-foreground sm:self-center">
+                  {f.or}
+                </span>
+                <button
+                  type="button"
+                  onClick={onWhatsApp}
+                  className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-[#25D366] px-7 py-3.5 text-sm font-semibold text-white shadow-[var(--shadow-soft)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#1ebe5b] hover:shadow-[var(--shadow-lift)] active:scale-[0.98]"
+                >
+                  <MessageCircle className="size-4" aria-hidden="true" />
+                  {f.whatsappBtn}
+                </button>
+              </div>
               {status !== "idle" && status !== "sending" && (
                 <motion.p
                   initial={{ opacity: 0, y: 6 }}
